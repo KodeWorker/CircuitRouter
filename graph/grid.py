@@ -40,7 +40,7 @@ class GridWithWeights(SquareGrid):
         """ Square Grid with Weights
         
         """
-        super().__init__(width, height)
+        super(GridWithWeights, self).__init__(width, height)
         self.weights = {}
     
     def cost(self, from_node, to_node):

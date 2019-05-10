@@ -62,7 +62,7 @@ def a_star_search(graph, start, goal, heuristic=diagonal_distance, p=0):
         if current == goal:
             break
         
-        for next in graph.get_neighbors(current):
+        for next in graph.neighbors(current):
             new_cost = cost_so_far[current] + graph.cost(current, next)
             if next not in cost_so_far or new_cost < cost_so_far[next]:
                 cost_so_far[next] = new_cost
