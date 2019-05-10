@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Basic Grid
-
+description:
+    
 content:
     - SquareGrid
     - GridWithWeights
@@ -8,6 +9,7 @@ content:
 reference:
     1. https://www.redblobgames.com/pathfinding/a-star/implementation.html
 
+author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/10
 
 """
@@ -18,7 +20,7 @@ class SquareGrid(object):
         """
         self.width = width
         self.height = height
-        self.walls = []
+        self.walls = set()
     
     def in_bounds(self, id):
         (x, y) = id

@@ -2,8 +2,8 @@
 """ Batch Test on All Unit Tests
 description:
     This is the batch test file for all the unit test in this folder.
-author: Shin-Fu (Kelvin) Wu
 reference: https://stackoverflow.com/questions/1732438/how-do-i-run-all-python-unit-tests-in-a-directory
+author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2017/06/09
     - 2019/05/10

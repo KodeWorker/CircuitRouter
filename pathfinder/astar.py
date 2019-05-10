@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Basic A-star Algorithm
-
+description:
+    
 content:
     - PriorityQueue
     - diagonal_distance
@@ -13,8 +14,8 @@ reference:
     1. https://www.redblobgames.com/pathfinding/a-star/implementation.html
     2. http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
 
+author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/10
-
 """
 import heapq
 
@@ -42,7 +43,7 @@ def diagonal_distance(a, b, D=1, D2=1):
     """
     dx = abs(a[0] - b[0])
     dy = abs(a[1] - b[1])
-    return D * max(dx, dy) + (D2-D) * min(dx, dy)
+    return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy)
 
 def a_star_search(graph, start, goal, heuristic=diagonal_distance, p=0):
     """A-star Search
