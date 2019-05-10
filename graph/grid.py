@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
 """Basic Grid
 
 content:
@@ -46,6 +45,3 @@ class GridWithWeights(SquareGrid):
     
     def cost(self, from_node, to_node):
         return self.weights.get(to_node, 1)
-=======
-
->>>>>>> f4c1aae3ebf1a712c312ac5c3fd421a70d923fcc

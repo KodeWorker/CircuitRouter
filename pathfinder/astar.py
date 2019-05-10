@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
 """Basic A-star Algorithm
 
 content:
@@ -25,12 +24,6 @@ class PriorityQueue:
         In ref. 1, it shows the reason why using a prioty queue to store the costs 
         of calculated vertices.
         """
-=======
-import heapq
-
-class PriorityQueue:
-    def __init__(self):
->>>>>>> f4c1aae3ebf1a712c312ac5c3fd421a70d923fcc
         self.elements = []
     
     def empty(self):
@@ -43,28 +36,19 @@ class PriorityQueue:
         return heapq.heappop(self.elements)[1]
     
 def diagonal_distance(a, b, D=1, D2=1):
-<<<<<<< HEAD
     """ Diagonal Distance
     In ref. 2, it shows that on a square grid that allows 8 directions of 
     movement, use Diagonal distance.
     """
-=======
->>>>>>> f4c1aae3ebf1a712c312ac5c3fd421a70d923fcc
     dx = abs(a[0] - b[0])
     dy = abs(a[1] - b[1])
     return D * max(dx, dy) + (D2-D) * min(dx, dy)
 
-<<<<<<< HEAD
 def a_star_search(graph, start, goal, heuristic=diagonal_distance, p=0):
     """A-star Search
     This function is the basic A* algorithm with a tie-breaking parameter.
     The default value of p is set to 0 (no tie-breaking). 
     """
-=======
-def a_star_algorithm(graph, start, goal, heuristic=diagonal_distance):
-    start = tuple(start)
-    goal = tuple(goal)
->>>>>>> f4c1aae3ebf1a712c312ac5c3fd421a70d923fcc
     frontier = PriorityQueue()
     frontier.put(start, 0)
     came_from = {}
@@ -76,17 +60,12 @@ def a_star_algorithm(graph, start, goal, heuristic=diagonal_distance):
         current = frontier.get()
         
         if current == goal:
-<<<<<<< HEAD
             break
-=======
-            return reconstruct_path(came_from, start, goal)
->>>>>>> f4c1aae3ebf1a712c312ac5c3fd421a70d923fcc
         
         for next in graph.get_neighbors(current):
             new_cost = cost_so_far[current] + graph.cost(current, next)
             if next not in cost_so_far or new_cost < cost_so_far[next]:
                 cost_so_far[next] = new_cost
-<<<<<<< HEAD
                 priority = new_cost + (1.0 + p)*heuristic(goal, next)
                 frontier.put(next, priority)
                 came_from[next] = current
@@ -132,22 +111,3 @@ def reduce_path(path):
     if reduced_path[-1] != path[-1]:
         reduced_path.append(path[-1])    
     return reduced_path
-=======
-                priority = new_cost + heuristic(goal, next)
-                frontier.put(next, priority)
-                came_from[next] = current
-                         
-    # Return None when there is no path
-    return None
-
-def reconstruct_path(came_from, start, goal):
-    start = tuple(start)
-    goal = tuple(goal)
-    
-    current = goal
-    path = [current]
-    while current != start:
-        current = came_from[current]
-        path.append(current)
-    return path
->>>>>>> f4c1aae3ebf1a712c312ac5c3fd421a70d923fcc
