@@ -143,11 +143,11 @@ if __name__ == '__main__':
         plt.scatter(pos[0], pos[1], color='blue')
         
     for pos in ol1:
-        plt.scatter(pos[0], pos[1], color='red')
+        plt.scatter(pos[0]+0.1, pos[1]+0.1, color='red')
     for pos in ol2:
-        plt.scatter(pos[0], pos[1], color='red')
+        plt.scatter(pos[0]+0.1, pos[1]+0.1, color='red')
     for pos in ol3:
-        plt.scatter(pos[0], pos[1], color='red')        
+        plt.scatter(pos[0]+0.1, pos[1]+0.1, color='red')        
     plt.savefig('octagon_line.png', dpi=200)
     plt.close()
     
