@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+""" Circle Shape
+description:
+    
+content:
+    - putpixel
+    - drawCircle
+    - bresenhams_circle
+reference:
+    1. https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
+author: Shin-Fu (Kelvin) Wu
+latest update: 2019/05/10
+"""
 from math import ceil
 
 def putpixel(x, y, pixel):

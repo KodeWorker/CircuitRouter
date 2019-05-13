@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
-
+""" Line Shape
+description:
+    
+content:
+    - bresenhams_line
+reference:
+    1. http://www.roguebasin.com/index.php?title=Bresenham%27s_Line_Algorithm
+author: Shin-Fu (Kelvin) Wu
+latest update: 2019/05/10
+"""
 def bresenhams_line(start, end, isList=False):
     if isList:
         line = []
