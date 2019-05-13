@@ -111,9 +111,9 @@ def solid_diagonal_rectangle(lpt, tpt):
    
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
+    
     rect = rectangle((-3,-2), (4, 6))
-    s = solid_rectangle((-3,-2), (4, 6))
-        
+    s = solid_rectangle((-3,-2), (4, 6))        
     plt.figure()
     plt.title('Rectangle Shapes')
     for pos in s:
@@ -122,11 +122,7 @@ if __name__ == '__main__':
         plt.scatter(pos[0]+0.1, pos[1]+0.1, color='red')
     plt.savefig('rectangle.png', dpi=200)
     plt.close()
-    
-    import matplotlib.pyplot as plt
-    rect = rectangle((-3,-2), (4, 6))
-    s = solid_rectangle((-3,-2), (4, 6))
-        
+            
     rect = diagonal_rectangle((0,0), (0, 40))
     s = solid_diagonal_rectangle((0,0), (0, 40))
     plt.figure()

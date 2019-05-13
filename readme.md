@@ -24,9 +24,9 @@ This time, I'll build the circuit router from scratch and see how it ends.
 
 ## Dev Log
 - 2019/05/09 initialtion
-- 2019/05/10 add lincese, basic A* algorithm, 4-direction grid, 8-direction graph, and their unittests
-- 2019/05/10 add shape for graph obstacles
-
+- 2019/05/10 add lincese, basic A* algorithm, 4-direction grid, 8-direction graph, and their unit tests
+- 2019/05/10 add shapes for graph obstacles
+- 2019/05/13 unit tests for shapes
 
 ## Reference
 1. https://www.redblobgames.com/pathfinding/a-star/implementation.html
