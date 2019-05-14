@@ -26,7 +26,7 @@ from shape.Octagon import octagon, solid_octagon
 from shape.Rectangle import (rectangle, solid_rectangle, diagonal_rectangle,
                              solid_diagonal_rectangle)
 from shape.OctagonLine import octagon_line, solid_octagon_line
-from shape.Parallelogram import parallelogram, solid_parallelogram
+from shape.Parallelogram import parallelogram, solid_parallelogram, parallelogram_dynamic_bound
 
 class TestLine(unittest.TestCase):
     
@@ -180,6 +180,17 @@ class TestParallelogram(unittest.TestCase):
                       (2, 1), (2, 0), (4, 1), (2, -1), (-1, -1), (0, -1), 
                       (1, 0), (1, -1), (1, 1)])
         self.assertEqual(sp, answer)
+    
+    def test_case3(self):
+        pt1 = (-1, -1)
+        pt2 = (5, 5)
+        pdb = parallelogram_dynamic_bound(pt1, pt2)
+        answer = set([(-1, 4), (-1, 0), (-1, 5), (5, 1), (2, 5), (1, -1), 
+                      (4, -1), (-1, 1), (5, 5), (3, 3), (4, 4), (1, 5), (5, 0),
+                      (-1, -1), (2, 2), (1, 1), (5, -1), (5, 4), (0, 0), 
+                      (4, 5), (2, -1), (-1, 2), (0, 5), (3, 5), (5, 3), (-1, 3),
+                      (3, -1), (0, -1), (5, 2)])
+        self.assertEqual(pdb, answer)
         
 if __name__ == '__main__':
     unittest.main(verbosity=1)  

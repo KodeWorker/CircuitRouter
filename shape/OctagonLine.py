@@ -12,8 +12,8 @@ latest update:
     - 2019/05/13 add support w/wo start/end
 """
 from math import ceil, sqrt
-from Octagon import octagon, solid_octagon
-from Rectangle import (rectangle, diagonal_rectangle, solid_rectangle,
+from shape.Octagon import octagon, solid_octagon
+from shape.Rectangle import (rectangle, diagonal_rectangle, solid_rectangle,
                        solid_diagonal_rectangle)
 
 def octagon_line(start, end, r, is_with_start=True, is_with_end=True):

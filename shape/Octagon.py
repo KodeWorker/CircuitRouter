@@ -10,7 +10,7 @@ author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/10
 """
 from math import ceil, sqrt
-from Circle import putpixel
+from shape.Circle import putpixel
 
 def octagon(xc, yc, r):
     

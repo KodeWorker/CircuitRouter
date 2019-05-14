@@ -37,7 +37,7 @@ class TestGrid8D(unittest.TestCase):
         self.g = EightDirectionGrid(4, 4)
     
     def test_case1(self):
-        self.assertSetEqual(set(self.g.neighbors((1,1))), set([(0, 1), (2, 1), (1, 0), (1, 2), (0, 0), (2, 2), (2, 0), (0, 2)]))
+        self.assertSetEqual(set(self.g.neighbors((1,1))), set([(2, 0), (1, 0), (0, 0), (2, 1), (0, 1), (2, 2), (1, 2), (0, 2)]))
 
 class TestGridDB(unittest.TestCase):
     def __init__(self, methodName='runTest'):
@@ -46,7 +46,7 @@ class TestGridDB(unittest.TestCase):
         self.g.set_search((0, 0), (3, 3))
     
     def test_case1(self):
-        self.assertSetEqual(set(self.g.neighbors((1,1))), set([(0, 1), (2, 1), (1, 0), (1, 2), (0, 0), (2, 2), (2, 0), (0, 2)]))
+        self.assertSetEqual(set(self.g.neighbors((0,0))), set([(1, 0), (0, 1), (1, 1)]))
 
        
 if __name__ == '__main__':

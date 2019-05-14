@@ -3,15 +3,43 @@
 description:
     
 content:
+    - parallelogram_visibility
     - parallelogram
     - solid_parallelogram
 
 author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/14
 """
-from Rectangle import rectangle, solid_rectangle
-from Line import bresenhams_line
+from shape.Rectangle import rectangle, solid_rectangle
+from shape.Line import bresenhams_line
 
+def parallelogram_dynamic_bound(pt1, pt2):
+    if pt1[1] >= pt2[1]:
+        pt1, pt2 = pt2, pt1
+        
+    dx, dy = abs(pt1[0] - pt2[0]), abs(pt1[1] - pt2[1])
+    pixel = set()
+    if dx == dy:
+        pixel = rectangle(pt1, pt2)
+        pixel |= bresenhams_line(pt1, pt2)
+    elif dx > dy:
+        pt3 = (pt1[0] + dy, pt2[1])
+        pt4 = (pt2[0] - dy, pt1[1])
+        l1 = bresenhams_line(pt1, pt3)
+        l2 = bresenhams_line(pt3, pt2)
+        l3 = bresenhams_line(pt2, pt4)
+        l4 = bresenhams_line(pt4, pt1)
+        pixel |= l1 | l2 | l3 | l4
+    elif dx < dy:
+        pt3 = (pt1[0], pt1[1] + dy - dx)
+        pt4 = (pt2[0], pt2[1] - dy + dx)
+        l1 = bresenhams_line(pt1, pt3)
+        l2 = bresenhams_line(pt3, pt2)
+        l3 = bresenhams_line(pt2, pt4)
+        l4 = bresenhams_line(pt4, pt1)
+        pixel |= l1 | l2 | l3 | l4
+        
+    return pixel
 def parallelogram(pt1, pt2):
     if pt1[1] >= pt2[1]:
         pt1, pt2 = pt2, pt1

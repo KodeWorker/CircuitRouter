@@ -19,7 +19,7 @@ author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/10
 """
 from math import sqrt
-from util import PriorityQueue
+from pathfinder.util import PriorityQueue
 
 def manhattan_distance(a, b):
     (x1, y1) = a

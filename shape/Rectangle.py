@@ -12,7 +12,7 @@ author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/10
 """
 from math import ceil
-from Line import bresenhams_line
+from shape.Line import bresenhams_line
 
 def rectangle(lb, tr):
     pixel = set()
