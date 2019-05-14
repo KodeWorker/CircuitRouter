@@ -3,14 +3,49 @@
 description:
     
 content:
+    - PriorityQueue
+    - reconstruct_path
     - is_in_path
     - reduce_path
 
 author: Shin-Fu (Kelvin) Wu
-latest update: 2019/05/13
+latest update: 
+    - 2019/05/13
+    - 2019/05/14 reorganized
 """
 # -*- coding: utf-8 -*-
+import heapq
 
+class PriorityQueue(object):
+    def __init__(self):
+        """ Queue with priority
+        In ref. 1, it shows the reason why using a prioty queue to store the costs 
+        of calculated vertices.
+        """
+        self.elements = []
+    
+    def empty(self):
+        return len(self.elements) == 0
+    
+    def put(self, item, priority):
+        heapq.heappush(self.elements, (priority, item))
+    
+    def get(self):
+        return heapq.heappop(self.elements)[1]
+
+def reconstruct_path(came_from, start, goal):
+    """Reconstruct Path
+    Reconstruct a path from search result.
+    """
+    current = goal
+    path = []
+    while current != start:
+        path.append(current)
+        current = came_from[current]        
+    path.append(start) # optional
+    path.reverse() # optional
+    return path
+   
 def is_in_path(P1, P2, P3):
     """Is in path
     Check if the points are in the same line.

@@ -7,7 +7,7 @@ reference:
 author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2017/06/09
-    - 2019/05/10
+    - 2019/05/10 fix __import__ issues
 """
 import os
 import sys

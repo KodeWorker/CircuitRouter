@@ -37,7 +37,7 @@ The project combines many practicle theories.
 - 2019/05/10 add lincese, basic A* algorithm, 4-direction grid, 8-direction graph, and their unit tests
 - 2019/05/10 add shapes for graph obstacles
 - 2019/05/13 unit tests for shapes
-- 2019/05/14 add parallelogram shape and dynamic-bound grid and their unit tests
+- 2019/05/14 add parallelogram shape and dynamic-bound grid and their unit tests (still in dev)
 
 ## Reference
 1. https://www.redblobgames.com/pathfinding/a-star/implementation.html

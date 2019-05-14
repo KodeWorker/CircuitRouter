@@ -4,6 +4,7 @@ description:
     
 content:
     - PriorityQueue
+    - manhattan_distance
     - diagonal_distance
     - a_star_algorithm
     - reconstruct_path
@@ -17,24 +18,13 @@ reference:
 author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/10
 """
-import heapq
+from math import sqrt
+from util import PriorityQueue
 
-class PriorityQueue:    
-    def __init__(self):
-        """ Queue with priority
-        In ref. 1, it shows the reason why using a prioty queue to store the costs 
-        of calculated vertices.
-        """
-        self.elements = []
-    
-    def empty(self):
-        return len(self.elements) == 0
-    
-    def put(self, item, priority):
-        heapq.heappush(self.elements, (priority, item))
-    
-    def get(self):
-        return heapq.heappop(self.elements)[1]
+def manhattan_distance(a, b):
+    (x1, y1) = a
+    (x2, y2) = b
+    return abs(x1 - x2) + abs(y1 - y2)
     
 def diagonal_distance(a, b, D=1, D2=1):
     """ Diagonal Distance
@@ -45,7 +35,12 @@ def diagonal_distance(a, b, D=1, D2=1):
     dy = abs(a[1] - b[1])
     return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy)
 
-def a_star_search(graph, start, goal, heuristic=diagonal_distance, p=0):
+def euclidean_distance(a, b):
+    (x1, y1) = a
+    (x2, y2) = b
+    return sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2) )
+
+def a_star_search(graph, start, goal, heuristic=diagonal_distance, p=0.0):
     """A-star Search
     This function is the basic A* algorithm with a tie-breaking parameter.
     The default value of p is set to 0 (no tie-breaking). 
@@ -72,16 +67,3 @@ def a_star_search(graph, start, goal, heuristic=diagonal_distance, p=0):
                 came_from[next] = current
                          
     return came_from, cost_so_far
-
-def reconstruct_path(came_from, start, goal):
-    """Reconstruct Path
-    Reconstruct a path from search result.
-    """
-    current = goal
-    path = []
-    while current != start:
-        path.append(current)
-        current = came_from[current]        
-    path.append(start) # optional
-    path.reverse() # optional
-    return path

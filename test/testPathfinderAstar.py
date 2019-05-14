@@ -19,8 +19,9 @@ sys.path.append(root)
 from graph.grid import GridWithWeights
 from graph.grid8d import EightDirectionGrid
 from graph.gridDB import DynamicBoundGrid
-from pathfinder.astar import a_star_search, reconstruct_path
+from pathfinder.astar import a_star_search
 from pathfinder.multiastar import multiple_a_star_search
+from pathfinder.util import reconstruct_path
 
 class TestAstar(unittest.TestCase):
     def __init__(self, methodName='runTest'):

@@ -16,7 +16,8 @@ root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(root)
 
 from graph.gridDB import DynamicBoundGrid
-from astar import a_star_search, reconstruct_path, diagonal_distance
+from astar import a_star_search, diagonal_distance
+from util import reconstruct_path
 
 def multiple_a_star_search(graph, segment, heuristic=diagonal_distance, p=0):
     path = []
