@@ -9,10 +9,10 @@ reference:
     1. https://www.geeksforgeeks.org/find-if-there-is-a-path-between-two-vertices-in-a-given-graph/
 
 author: Shin-Fu (Kelvin) Wu
-latest update: 2019/05/14
-
+latest update: 
+    - 2019/05/14
+    - 2019/05/15 calculate search atset_search (reduce A* time)
 """
-
 import os
 import sys
 root = os.path.join(os.path.dirname(__file__), '..')
@@ -26,10 +26,11 @@ class DynamicBoundGrid(EightDirectionGrid):
         super(DynamicBoundGrid, self).__init__(width, height)
         self.sights = set()
         self.expands = set()
+        self.search = set()
         self.outlines = set()
         
     def in_search(self, pos):
-        return pos in self.sights | self.outlines
+        return pos in self.search
     
     def set_search(self, pt1, pt2):
         self.expands.clear()
@@ -39,6 +40,7 @@ class DynamicBoundGrid(EightDirectionGrid):
             block_in_sights = self.sights & self.walls
             self.expands = self.get_expands(block_in_sights)
             self.outlines = self.get_outlines()
+            self.search = self.sights | self.outlines
     
     def get_expands(self, block_in_sights):
         visited = {}
