@@ -9,7 +9,9 @@ content:
     - TestRectangle
     - TestOctagonLine
 author: Shin-Fu (Kelvin) Wu
-latest update: 2019/05/13
+latest update: 
+    - 2019/05/13
+    - 2019/05/14 add TestParallelogram
 """
 
 import os
@@ -24,6 +26,7 @@ from shape.Octagon import octagon, solid_octagon
 from shape.Rectangle import (rectangle, solid_rectangle, diagonal_rectangle,
                              solid_diagonal_rectangle)
 from shape.OctagonLine import octagon_line, solid_octagon_line
+from shape.Parallelogram import parallelogram, solid_parallelogram
 
 class TestLine(unittest.TestCase):
     
@@ -155,6 +158,28 @@ class TestOctagonLine(unittest.TestCase):
                       (3, 5), (4, 6), (3, 4), (5, 7), (7, 4), (2, 0), (8, 8), 
                       (4, 3), (0, -2), (5, 2), (0, 2)])
         self.assertEqual(sl, answer)
+
+class TestParallelogram(unittest.TestCase):
+    
+    def __init__(self, methodName='runTest'):
+        super(TestParallelogram, self).__init__(methodName)
+        
+    def test_case1(self):
+        pt1 = (-1, -1)
+        pt2 = (5, 2)
+        p = parallelogram(pt1, pt2)
+        answer = set([(3, 2), (0, 0), (3, 0), (1, -1), (2, -1), (-1, -1), 
+                      (4, 2), (4, 1), (2, 2), (0, -1), (5, 2), (1, 1)])
+        self.assertEqual(p, answer)
+    
+    def test_case2(self):
+        pt1 = (-1, -1)
+        pt2 = (5, 2)
+        sp = solid_parallelogram(pt1, pt2)
+        answer = set([(3, 2), (0, 0), (3, 1), (3, 0), (5, 2), (4, 2), (2, 2),
+                      (2, 1), (2, 0), (4, 1), (2, -1), (-1, -1), (0, -1), 
+                      (1, 0), (1, -1), (1, 1)])
+        self.assertEqual(sp, answer)
         
 if __name__ == '__main__':
     unittest.main(verbosity=1)  

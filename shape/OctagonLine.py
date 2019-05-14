@@ -9,7 +9,7 @@ content:
 author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2019/05/10
-    - 2019/05/13
+    - 2019/05/13 add support w/wo start/end
 """
 from math import ceil, sqrt
 from Octagon import octagon, solid_octagon

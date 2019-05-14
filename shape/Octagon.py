@@ -3,7 +3,6 @@
 description:
     
 content:
-    - putpixel
     - octagon
     - solid_octagon
 

@@ -83,10 +83,10 @@ def solid_diagonal_rectangle(lpt, tpt):
         l11 = bresenhams_line(p11, p22, True)
         l22 = bresenhams_line(p44, p33, True)
         
-        for s, g in zip(l1, l2):
-            pixel |= bresenhams_line(s, g)
-        for s, g in zip(l11, l22):
-            pixel |= bresenhams_line(s, g)
+        for s, e in zip(l1, l2):
+            pixel |= bresenhams_line(s, e)
+        for s, e in zip(l11, l22):
+            pixel |= bresenhams_line(s, e)
             
     else:
         p1 = lpt
@@ -103,10 +103,10 @@ def solid_diagonal_rectangle(lpt, tpt):
         l11 = bresenhams_line(p11, p22, True)
         l22 = bresenhams_line(p44, p33, True)
         
-        for s, g in zip(l1, l2):
-            pixel |= bresenhams_line(s, g)
-        for s, g in zip(l11, l22):
-            pixel |= bresenhams_line(s, g)    
+        for s, e in zip(l1, l2):
+            pixel |= bresenhams_line(s, e)
+        for s, e in zip(l11, l22):
+            pixel |= bresenhams_line(s, e)    
     return pixel
    
 if __name__ == '__main__':
