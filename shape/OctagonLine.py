@@ -10,6 +10,7 @@ author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2019/05/10
     - 2019/05/13 add support w/wo start/end
+    - 2019/05/15 fix bugs in vertical line
 """
 from math import ceil, sqrt
 from shape.Octagon import octagon, solid_octagon
@@ -46,7 +47,7 @@ def octagon_line(start, end, r, is_with_start=True, is_with_end=True):
         # Vertical
         pt1y = min(start[1], end[1])
         pt2y = max(start[1], end[1])
-        rect = rectangle((start[0]-r, pt1y+a), (start[1]+r, pt2y-a))
+        rect = rectangle((start[0]-r, pt1y+a), (start[0]+r, pt2y-a))
         pixel |= rect
     elif dy == 0 and dx != 0:        
         # Horizontal
@@ -99,7 +100,7 @@ def solid_octagon_line(start, end, r, is_with_start=True, is_with_end=True):
         # Vertical
         pt1y = min(start[1], end[1])
         pt2y = max(start[1], end[1])
-        rect = solid_rectangle((start[0]-r, pt1y+a), (start[1]+r, pt2y-a))
+        rect = solid_rectangle((start[0]-r, pt1y+a), (start[0]+r, pt2y-a))
         pixel |= rect
     elif dy == 0 and dx != 0:        
         # Horizontal
@@ -125,43 +126,59 @@ def solid_octagon_line(start, end, r, is_with_start=True, is_with_end=True):
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
     r=8
-    start = (0, 0)
-    end = (30, 0)
-    ol1 = octagon_line(start, end, r)
-    start = (0, 0)
-    end = (0, 30)
-    ol2 = octagon_line(start, end, r)    
-    start = (0, 0)
-    end = (30, 30)
-    ol3 = octagon_line(start, end, r)
     
-    start = (0, 0)
-    end = (30, 0)
-    sl1 = solid_octagon_line(start, end, r)
-    start = (0, 0)
-    end = (0, 30)
-    sl2 = solid_octagon_line(start, end, r)    
-    start = (0, 0)
-    end = (30, 30)
-    sl3 = solid_octagon_line(start, end, r)
+#    start = (0, 0)
+#    end = (30, 0)
+#    ol1 = octagon_line(start, end, r)
+#    start = (0, 0)
+#    end = (0, 30)
+#    ol2 = octagon_line(start, end, r)    
+#    start = (0, 0)
+#    end = (30, 30)
+#    ol3 = octagon_line(start, end, r)
+#    
+#    start = (0, 0)
+#    end = (30, 0)
+#    sl1 = solid_octagon_line(start, end, r)
+#    start = (0, 0)
+#    end = (0, 30)
+#    sl2 = solid_octagon_line(start, end, r)    
+#    start = (0, 0)
+#    end = (30, 30)
+#    sl3 = solid_octagon_line(start, end, r)
+#    
+#    plt.figure()
+#    plt.title('Octagon Line')
+#    plt.scatter([pos[0] for pos in sl1], 
+#                [pos[1] for pos in sl1],
+#                color='blue')
+#    plt.scatter([pos[0] for pos in sl2], 
+#                [pos[1] for pos in sl2],
+#                color='blue')
+#    plt.scatter([pos[0] for pos in sl3], 
+#                [pos[1] for pos in sl3],
+#                color='blue')
+#        
+#    plt.scatter([pos[0] for pos in ol1], 
+#                [pos[1] for pos in ol1],
+#                color='red')
+#    plt.scatter([pos[0] for pos in ol2], 
+#                [pos[1] for pos in ol2],
+#                color='red')
+#    plt.scatter([pos[0] for pos in ol3], 
+#                [pos[1] for pos in ol3],
+#                color='red')
+#    plt.savefig('octagon_line.png', dpi=200)
+#    plt.close()
     
-    plt.figure()
-    plt.title('Octagon Line')
-    for pos in sl1:
-        plt.scatter(pos[0], pos[1], color='blue')
-    for pos in sl2:
-        plt.scatter(pos[0], pos[1], color='blue')
-    for pos in sl3:
-        plt.scatter(pos[0], pos[1], color='blue')
-        
-    for pos in ol1:
-        plt.scatter(pos[0]+0.1, pos[1]+0.1, color='red')
-    for pos in ol2:
-        plt.scatter(pos[0]+0.1, pos[1]+0.1, color='red')
-    for pos in ol3:
-        plt.scatter(pos[0]+0.1, pos[1]+0.1, color='red')        
-    plt.savefig('octagon_line.png', dpi=200)
-    plt.close()
+    start, end = (606, 5097), (606, 5194)
+#    start, end = (start[1], start[0]), (end[1], end[0])
+    ol = octagon_line(start, end, r)
+    sl = solid_octagon_line(start, end, r)
     
-    
-    
+    plt.scatter([pos[0] for pos in sl], 
+                [pos[1] for pos in sl],
+                color='blue')
+    plt.scatter([pos[0] for pos in ol], 
+                [pos[1] for pos in ol],
+                color='red')

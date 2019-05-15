@@ -65,5 +65,5 @@ def a_star_search(graph, start, goal, heuristic=diagonal_distance, p=0.0):
                 priority = new_cost + (1.0 + p)*heuristic(goal, next)
                 frontier.put(next, priority)
                 came_from[next] = current
-                         
+                
     return came_from, cost_so_far
