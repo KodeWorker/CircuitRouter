@@ -46,8 +46,8 @@ def reconstruct_path(came_from, start, goal):
     path.reverse() # optional
     return path
    
-def is_in_path(P1, P2, P3):
-    """Is in path
+def is_in_line(P1, P2, P3):
+    """Is in line
     Check if the points are in the same line.
     """
     a = (P2[0] - P1[0]) * (P3[1] - P2[1])
@@ -64,7 +64,7 @@ def reduce_path(path):
     reduced_path = [path[0], path[1]]    
     ind = 2
     while ind < len(path):
-        if is_in_path(path[ind], path[ind-1], path[ind-2]):
+        if is_in_line(path[ind], path[ind-1], path[ind-2]):
             reduced_path[-1] = path[ind]
         else:
             reduced_path.append(path[ind])

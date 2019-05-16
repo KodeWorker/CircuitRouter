@@ -13,6 +13,7 @@ latest update:
     - 2019/05/14
     - 2019/05/15 calculate search at set_search (reduce A* time) and 
     add DynamicBoundGridWithShortcuts
+    - 2019/05/16 refine get_shortcuts
 """
 import os
 import sys
@@ -20,7 +21,7 @@ root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(root)
 
 from graph.grid8d import EightDirectionGrid
-from shape.Parallelogram import parallelogram_dynamic_bound
+from shape.Parallelogram import parallelogram_dynamic_bound, parallelogram_shortcuts
 
 class DynamicBoundGrid(EightDirectionGrid):
     def __init__(self, width, height):
@@ -29,21 +30,29 @@ class DynamicBoundGrid(EightDirectionGrid):
         self.expands = set()
         self.search = set()
         self.outlines = set()
-        
+                
     def in_search(self, pos):
         return pos in self.search
     
-    def set_search(self, pt1, pt2):
+    def set_search(self, start, end):        
+        self.start = start
+        self.end = end
+        
+        self.sights.clear()
         self.expands.clear()
         self.outlines.clear()
-        self.sights = parallelogram_dynamic_bound(pt1, pt2)
-        if True:
-            self.blocks_in_sights = self.sights & self.walls
-            self.sights -= self.blocks_in_sights
-            self.expands = self.get_expands()
-            self.outlines = self.get_outlines()
-        self.search = self.sights | self.outlines
         
+        self.get_sights()
+        self.get_expands()
+        self.get_outlines()
+        
+        self.search = self.sights | self.outlines
+    
+    def get_sights(self):
+        self.sights = parallelogram_dynamic_bound(self.start, self.end)        
+        self.blocks_in_sights = self.sights & self.walls
+        self.sights -= self.blocks_in_sights
+    
     def get_expands(self):
         visited = {}
         
@@ -60,41 +69,30 @@ class DynamicBoundGrid(EightDirectionGrid):
                 
                 current = queue.pop(0)
                 
-                if len(self.block_neighbors(current, visited)) == 0:
+                if len(self.adjacent_blocks(current)) == 0:
                     break
                 
-                for neighbor in self.block_neighbors(current, visited):
+                for neighbor in self.adjacent_blocks(current):
                     if visited.get(neighbor, False) == False:
                         queue.append(neighbor)
                         visited[neighbor] = True
                         
-        return set(visited.keys())
+        self.expands = set(visited.keys())
         
-    def block_neighbors(self, pos, visited):
-        
-        (x, y) = pos
+    def adjacent_blocks(self, pos):
         candidates = self.get_candidates(pos)
-        if (x + y) % 2 == 0: candidates.reverse() # aesthetics
         candidates = list(filter(self.in_bounds, candidates))
         candidates = [candidate for candidate in candidates if candidate in self.walls]
-        
         return candidates
     
     def get_outlines(self):
-        outlines = set()
         for pos in self.expands:
-            outlines |= set(self.obstacle_outlines(pos))
-        return outlines
+            self.outlines |= set(self.obstacle_outlines(pos))
     
     def obstacle_outlines(self, pos):
-        (x, y) = pos
-        if pos in self.walls:
-            candidates = self.outline_candidates(pos)
-            if (x + y) % 2 == 0: candidates.reverse() # aesthetics
-            candidates = list(filter(self.in_bounds, candidates))
-            candidates = list(filter(self.passable, candidates))
-        else:
-            raise ValueError('Current position is not obstacle')
+        candidates = self.outline_candidates(pos)
+        candidates = list(filter(self.in_bounds, candidates))
+        candidates = list(filter(self.passable, candidates))
         return candidates
     
     def outline_candidates(self, pos):
@@ -112,7 +110,6 @@ class DynamicBoundGrid(EightDirectionGrid):
     def neighbors(self, pos):
         (x, y) = pos
         candidates = self.get_candidates(pos)
-        if (x + y) % 2 == 0: candidates.reverse() # aesthetics
         candidates = list(filter(self.in_search, candidates))
         candidates = list(filter(self.passable, candidates))
         
@@ -140,25 +137,28 @@ class DynamicBoundGridWithShortcuts(DynamicBoundGrid):
         super(DynamicBoundGridWithShortcuts, self).__init__(width, height)
         self.shortcuts = set()
     
-    def set_search(self, pt1, pt2):
+    def set_search(self, start, end):
+        self.start = start
+        self.end = end
+        
+        self.sights.clear()
         self.expands.clear()
-        self.outlines.clear()  
+        self.outlines.clear() 
         self.shortcuts.clear()
-        self.sights = parallelogram_dynamic_bound(pt1, pt2)
-        if True:
-            self.blocks_in_sights = self.sights & self.walls
-            self.sights -= self.blocks_in_sights
-            self.expands = self.get_expands()
-            self.outlines = self.get_outlines()        
-        self.add_shortcuts_in_sights(pt1, pt2)
+        
+        self.get_sights()
+        self.get_expands()
+        self.get_outlines()        
+        self.get_shortcuts()
         
         self.search = self.sights | self.outlines | self.shortcuts
         
-    def add_shortcuts_in_sights(self, pt1, pt2):
-        outlines_for_shortcut = self.outlines - self.sights
-        for outline in outlines_for_shortcut:
+    def get_shortcuts(self):
+        for outline in self.outlines:
             candidates = self.get_candidates(outline)
             candidates = list(filter(self.passable, candidates))
             candidates = set(candidates) - self.outlines
             if len(candidates) >= 4:
-                self.shortcuts |= parallelogram_dynamic_bound(pt1, outline) | parallelogram_dynamic_bound(outline, pt2)
+                for shortcut in parallelogram_shortcuts(self.start, outline) + parallelogram_shortcuts(outline, self.end):
+                    if not shortcut & self.walls:
+                        self.shortcuts |= shortcut

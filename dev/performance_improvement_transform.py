@@ -8,6 +8,7 @@ sys.path.append(root)
 
 from graph.grid8d import EightDirectionGrid
 from graph.gridDB import DynamicBoundGridWithShortcuts
+from graph.transform import DenseGraph
 from pathfinder.astar import a_star_search
 from pathfinder.util import reduce_path, reconstruct_path
 from shape.Octagon import solid_octagon
@@ -73,30 +74,30 @@ if __name__ == '__main__':
     
     t0 = time.time()    
     print('4')
-    grid2.set_search(start1, goal1)
-    came_from, cost_so_far = a_star_search(grid2, start1, goal1, p=p)
+    dg = DenseGraph(grid2)
+    dg.set_search(start1, goal1)
+    came_from, cost_so_far = a_star_search(dg, start1, goal1, p=p)
     path = reconstruct_path(came_from, start1, goal1)
     path1_ = reduce_path(path)
     for i in range(1, len(path1_)):
         grid2.walls |= solid_octagon_line(path1_[i-1], path1_[i], 5)
     print('5')
-    grid2.set_search(start2, goal2)
-    came_from, cost_so_far = a_star_search(grid2, start2, goal2, p=p)
+    dg.set_search(start2, goal2)
+    came_from, cost_so_far = a_star_search(dg, start2, goal2, p=p)
     path = reconstruct_path(came_from, start2, goal2)
     path2_ = reduce_path(path)
     for i in range(1, len(path2_)):
         grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)
     
     print('6')
-    grid2.set_search(start3, goal3)
-    came_from, cost_so_far = a_star_search(grid2, start3, goal3, p=p)
+    dg.set_search(start3, goal3)
+    came_from, cost_so_far = a_star_search(dg, start3, goal3, p=p)
     path = reconstruct_path(came_from, start3, goal3)
     path3_ = reduce_path(path)
     for i in range(1, len(path3_)):
         grid2.walls |= solid_octagon_line(path3_[i-1], path3_[i], 5)
         
     print("Grid 2 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
-    
     
     plt.scatter([pos[0] for pos in grid2.search], 
                 [pos[1] for pos in grid2.search],

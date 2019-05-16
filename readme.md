@@ -38,8 +38,13 @@ The project combines many practicle theories.
 - 2019/05/10 add shapes for graph obstacles
 - 2019/05/13 unit tests for shapes
 - 2019/05/14 add parallelogram shape and dynamic-bounded grid and their unit tests
-- 2019/05/15 bug fixes and add dynamic-bounded grid with short-cuts for very large grid.
+- 2019/05/15 bug fixes and add dynamic-bounded grid with shortcuts for very large grid.
 The idea of this graph structure is inspired by the visibility graph and landmarks.
+- 2019/05/16 traversing cells to build a simpler graph is little bit slower
+
+## Todo List
+- graph reduction
+- hierarchical graph structure
 
 ## Reference
 1. https://www.redblobgames.com/pathfinding/a-star/implementation.html
