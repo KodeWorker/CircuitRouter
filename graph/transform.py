@@ -92,8 +92,7 @@ class DenseGraph(object):
         
 if __name__ == '__main__':
     
-    grid = DynamicBoundGridWithShortcuts(500, 500)
-    
+    grid = DynamicBoundGridWithShortcuts(500, 500)    
     
     start, end = ((0,0), (5, 12))
     graph = DenseGraph(grid)
