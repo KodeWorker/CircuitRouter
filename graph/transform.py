@@ -10,6 +10,7 @@ reference:
 author: Shin-Fu (Kelvin) Wu
 latest update: 2019/05/16
 """
+from copy import deepcopy
 from graph.gridDB import DynamicBoundGrid, DynamicBoundGridWithShortcuts
 from pathfinder.util import is_in_line
 from pathfinder.metrics import euclidean_distance
@@ -62,21 +63,22 @@ class DenseGraph(object):
                     cfrom.add(current)
                     came_from[neighbor] = cfrom
         
+        vertex = deepcopy(go_to)
         for current in go_to.keys():
-            if len(go_to[current]) == 2:
-                v1, v2 = list(go_to[current])[0], list(go_to[current])[1]
+            if len(vertex[current]) == 2:
+                v1, v2 = list(vertex[current])[0], list(vertex[current])[1]
                 if is_in_line(v1, current, v2):
-                    go_to[v1].remove(current)
-                    go_to[v1].add(v2)
-                    go_to[v2].remove(current)
-                    go_to[v2].add(v1)
-                    go_to.pop(current) 
-            elif len(go_to[current]) == 1:
-                v = list(go_to[current])[0]
-                go_to[v].remove(current)
-                go_to.pop(current) 
+                    vertex[v1].remove(current)
+                    vertex[v1].add(v2)
+                    vertex[v2].remove(current)
+                    vertex[v2].add(v1)
+                    vertex.pop(current) 
+            elif len(vertex[current]) == 1:
+                v = list(vertex[current])[0]
+                vertex[v].remove(current)
+                vertex.pop(current) 
                 
-        return go_to
+        return vertex
     
     def neighbors(self, pos):
         return self.vertex[pos]
@@ -93,7 +95,7 @@ if __name__ == '__main__':
     grid = DynamicBoundGridWithShortcuts(500, 500)
     
     
-    start, end = ((0,0), (50, 120))
+    start, end = ((0,0), (5, 12))
     graph = DenseGraph(grid)
     graph.set_search(start, end)
     
