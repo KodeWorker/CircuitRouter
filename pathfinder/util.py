@@ -5,6 +5,7 @@ description:
 content:
     - PriorityQueue
     - reconstruct_path
+    - is_within_line
     - is_in_path
     - reduce_path
 
@@ -12,6 +13,7 @@ author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2019/05/13
     - 2019/05/14 reorganized
+    - 2019/05/17 add is_within_line
 """
 # -*- coding: utf-8 -*-
 import heapq
@@ -45,7 +47,16 @@ def reconstruct_path(came_from, start, goal):
     path.append(start) # optional
     path.reverse() # optional
     return path
-   
+
+def is_within_line(P1, P2, P3):
+    if P1[0]<=P2[0]<=P3[0] and P1[1]<=P2[1]<=P3[1]:
+        return True
+    elif P3[0]<=P2[0]<=P1[0] and P3[1]<=P2[1]<=P1[1]:
+        return True
+    else:
+        return False
+
+  
 def is_in_line(P1, P2, P3):
     """Is in line
     Check if the points are in the same line.

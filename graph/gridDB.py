@@ -111,7 +111,6 @@ class DynamicBoundGrid(EightDirectionGrid):
         (x, y) = pos
         candidates = self.get_candidates(pos)
         candidates = list(filter(self.in_search, candidates))
-        candidates = list(filter(self.passable, candidates))
         
         pop = set()
         for candidate in candidates:

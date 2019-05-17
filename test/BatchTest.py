@@ -19,7 +19,7 @@ def Main():
     test_files = os.listdir(os.path.dirname(__file__))
     testmodules = [filename.replace('.py', '') for filename in test_files if 
                    filename != current_script and filename.endswith('.py')]
-            
+    
     suite = unittest.TestSuite()
     
     for t in testmodules:
