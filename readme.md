@@ -41,6 +41,7 @@ The project combines many practicle theories.
 - 2019/05/15 bug fixes and add dynamic-bounded grid with shortcuts for very large grid.
 The idea of this graph structure is inspired by the visibility graph and landmarks.
 - 2019/05/16 traversing cells to build a simpler graph is little bit slower
+- 2019/05/17 DualityGraph (in dev.)
 
 ## Todo List
 - graph reduction
