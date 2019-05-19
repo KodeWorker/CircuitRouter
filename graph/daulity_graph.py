@@ -80,56 +80,148 @@ class DualityGraph(EightDirectionGrid):
         self.edge.update(edge)
     
     def get_directed_outline(self, outline):
-        #! bugs: one directuin blocked! (!!!)
-        init = list(self.merge_nodes & outline)[0]
-        
+        #! bugs
         vertex = {}
         edge = {}
-        
         visited = {}
+        
         came_from = {}
         go_to = {}
-        queue = []
         
-        queue.append(init)
+        init = list(self.merge_nodes & outline)[0]
+        fork_queue = []        
+        fork_queue.append(init)
         visited[init] = True
         
-        while queue:
+        while fork_queue:
             
-            current_node = queue.pop(0)
+            fork = fork_queue.pop(0)
             
-            if len(visited) == len(outline):
-                #!
-                vertex[current_node] = set([came_from[current_node], go_to[current_node]])
-                edge[(came_from[current_node], current_node)] = euclidean_distance(came_from[current_node], current_node)
-                edge[(current_node, go_to[current_node])] = euclidean_distance(current_node, go_to[current_node])
-                break
+            fork_nodes = [pos for pos in self.adjacent_blocks(fork, outline) 
+            if not visited.get(pos, False)]
             
-            next_nodes = self.adjacent_blocks(current_node, outline)
-            if current_node == init:
-                other_node = next_nodes.pop()
-                came_from[init] = other_node
-                go_to[other_node] = init
-             
-            for next_node in next_nodes:                        
-                if not visited.get(next_node, False):  
-                    visited[next_node] = True
-                    queue.append(next_node)
-                    go_to[current_node] = next_node
-                    came_from[next_node] = current_node
+            # daulity
+            for fork_node in fork_nodes:
+                vSet = vertex.get(fork, set())
+                vSet.add(fork_node)
+                vertex[fork] = vSet
+                
+                d = euclidean_distance(fork, fork_node)
+                edge[(fork, fork_node)] = d
+                edge[(fork_node, fork)] = d
+            
+            while fork_nodes:
+                
+                current = fork_nodes.pop(0)                
+                came_from[current] = fork
+                
+                search_queue = []
+                search_queue.append(current)
+                visited[current] = True
+                
+                while search_queue:
                     
-                    if not is_in_line(came_from[current_node], current_node, go_to[current_node]) \
-                    or current_node in self.merge_nodes:
+                    node = search_queue.pop(0)
+                    
+                    if len([pos for pos in self.adjacent_blocks(node, outline) 
+                            if not visited.get(pos, False)]) == 0:
                         # daulity
-                        vertex[current_node] = set([came_from[current_node], go_to[current_node]])
-                        edge[(came_from[current_node], current_node)] = euclidean_distance(came_from[current_node], current_node)
-                        edge[(current_node, go_to[current_node])] = euclidean_distance(current_node, go_to[current_node])
+                        ## leaf node
+                        vertex[node] = set([came_from[node]])
+                        d = euclidean_distance(node, came_from[node])
+                        edge[(node, came_from[node])] = d
+                        edge[(came_from[node], node)] = d
+                        ## possible loop
+                        for connect_node in set(self.adjacent_blocks(node, outline)):
+                            if connect_node != came_from[node] and connect_node in visited:
+                                
+                                cSet = vertex.get(connect_node, set())
+                                cSet.add(node)
+                                vertex[connect_node] = cSet                                
+                                
+                                vertex[node].add(connect_node)
+                                d = euclidean_distance(node, connect_node)
+                                edge[(node, connect_node)] = d
+                                edge[(connect_node, node)] = d
+                        break
+                    
+                    if len(self.adjacent_blocks(node, outline)) > 2:
+                        fork_queue.append(node)
+                        break
                     else:
-                        # merge in-line vertex except merge_nodes
-                        came_from[go_to[current_node]] = came_from[current_node]
-                        go_to[came_from[current_node]] = go_to[current_node]
-                     
-        return vertex, edge        
+                        for next_node in self.adjacent_blocks(node, outline):
+                            if not visited.get(next_node, False):
+                                search_queue.append(next_node)
+                                came_from[next_node] = node
+                                go_to[node] = next_node
+                                visited[next_node] = True
+                                
+                                # daulity
+                                if not is_in_line(came_from[node], node, go_to[node]):
+                                    vertex[node] = set([came_from[node], go_to[node]])
+                                    
+                                    edge[(came_from[node], node)] = euclidean_distance(came_from[node], node)
+                                    edge[(node, go_to[node])] = euclidean_distance(node, go_to[node])
+                                else:
+                                    came_from[go_to[node]] = came_from[node]
+                                    go_to[came_from[node]] = go_to[node]
+                                
+#        print((set(visited.keys()) | outline) - (set(visited.keys()) & outline))
+#        print(len(visited), len(outline))
+        
+        return vertex, edge
+    
+#    def get_directed_outline(self, outline):
+#        #! bugs: one directuin blocked! (!!!)
+#        init = list(self.merge_nodes & outline)[0]
+#        
+#        vertex = {}
+#        edge = {}
+#        
+#        visited = {}
+#        came_from = {}
+#        go_to = {}
+#        queue = []
+#        
+#        queue.append(init)
+#        visited[init] = True
+#        
+#        while queue:
+#            
+#            current_node = queue.pop(0)
+#            
+#            if len(visited) == len(outline):
+#                #!
+#                vertex[current_node] = set([came_from[current_node], go_to[current_node]])
+#                edge[(came_from[current_node], current_node)] = euclidean_distance(came_from[current_node], current_node)
+#                edge[(current_node, go_to[current_node])] = euclidean_distance(current_node, go_to[current_node])
+#                break
+#            
+#            next_nodes = self.adjacent_blocks(current_node, outline)
+#            if current_node == init:
+#                other_node = next_nodes.pop()
+#                came_from[init] = other_node
+#                go_to[other_node] = init
+#             
+#            for next_node in next_nodes:                        
+#                if not visited.get(next_node, False):  
+#                    visited[next_node] = True
+#                    queue.append(next_node)
+#                    go_to[current_node] = next_node
+#                    came_from[next_node] = current_node
+#                    
+#                    if not is_in_line(came_from[current_node], current_node, go_to[current_node]) \
+#                    or current_node in self.merge_nodes:
+#                        # daulity
+#                        vertex[current_node] = set([came_from[current_node], go_to[current_node]])
+#                        edge[(came_from[current_node], current_node)] = euclidean_distance(came_from[current_node], current_node)
+#                        edge[(current_node, go_to[current_node])] = euclidean_distance(current_node, go_to[current_node])
+#                    else:
+#                        # merge in-line vertex except merge_nodes
+#                        came_from[go_to[current_node]] = came_from[current_node]
+#                        go_to[came_from[current_node]] = go_to[current_node]
+#                     
+#        return vertex, edge        
             
     def get_outline(self, expand):
         outline = set()
@@ -160,7 +252,7 @@ class DualityGraph(EightDirectionGrid):
             current = queue.pop(0)
             
             for neighbor in self.adjacent_blocks(current, self.walls):
-                if visited.get(neighbor, False) == False:
+                if not visited.get(neighbor, False):
                     queue.append(neighbor)
                     visited[neighbor] = True
                         
@@ -178,28 +270,31 @@ class DualityGraph(EightDirectionGrid):
         init = blocks.pop(0)
         queue.append(init)
         visited[init] = True
+        temp.add(init)
         
-        while blocks:
+        while blocks or queue:
             while queue:
                 current = queue.pop(0)
-                
+                                    
                 for block in self.adjacent_blocks(current, self.block_in_sights):
-                    if visited.get(block, False) == False:
+                    if not visited.get(block, False):
                         queue.append(block)
                         visited[block] = True
                         temp.add(block)
                         blocks.remove(block)
             
             groups[g_key] = deepcopy(temp)
-            temp.clear
+            temp.clear()
             g_key += 1
             if not blocks:
                 break
-            # prepare next queue
-            init = blocks.pop(0)
-            queue.append(init)
-            visited[init] = True
-                    
+            else:
+                # prepare next queue
+                init = blocks.pop(0)
+                queue.append(init)
+                visited[init] = True
+                temp.add(init)
+                
         return groups
     
     def adjacent_blocks(self, pos, blocks):
@@ -325,10 +420,10 @@ if __name__ == '__main__':
     dg = DualityGraph(1000, 1000)
     
     
-    for pos in solid_octagon_line((5, 10), (15, 10), 2):
+    for pos in solid_octagon_line((5, 8), (15, 8), 1):
         dg.walls.add(pos)
     
-    for pos in solid_octagon_line((5, 5), (5, 2), 2):
+    for pos in solid_octagon_line((2, 10), (2, 2), 1):
         dg.walls.add(pos)
     
 #    for x in range(9, 12):
@@ -352,17 +447,17 @@ if __name__ == '__main__':
         pt1, pt2 = key
         plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='green')
     
-    plt.scatter([p[0] for p in dg.outlines],
-                [p[1] for p in dg.outlines], color='orange')
+#    plt.scatter([p[0] for p in dg.outlines],
+#                [p[1] for p in dg.outlines], color='orange')
     
     
-    for num in dg.iso_graph.keys():
-        vertex = dg.iso_graph[num]['vertex']
-        edge = dg.iso_graph[num]['edge']
-        
-        plt.scatter([p[0] for p in vertex.keys()],
-                [p[1] for p in vertex.keys()], color='yellow')
-        for key in edge.keys():
-            pt1, pt2 = key
-            plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='yellow')
+#    for num in dg.iso_graph.keys():
+#        vertex = dg.iso_graph[num]['vertex']
+#        edge = dg.iso_graph[num]['edge']
+#        
+#        plt.scatter([p[0] for p in vertex.keys()],
+#                [p[1] for p in vertex.keys()], color='yellow')
+#        for key in edge.keys():
+#            pt1, pt2 = key
+#            plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='yellow')
     

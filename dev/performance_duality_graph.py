@@ -14,7 +14,7 @@ from shape.Octagon import solid_octagon
 from shape.OctagonLine import solid_octagon_line
 
 if __name__ == '__main__':
-    grid1 = EightDirectionGrid(10000, 10000)
+#    grid1 = EightDirectionGrid(10000, 10000)
     grid2 = DualityGraph(10000, 10000)
     p = 0.5
         
@@ -68,8 +68,7 @@ if __name__ == '__main__':
     path = reconstruct_path(came_from, start2, goal2)
     path2_ = reduce_path(path)
     for i in range(1, len(path2_)):
-        grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)
-    
+        grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)    
     print('6')
     grid2.set_search(start3, goal3)
     came_from, cost_so_far = a_star_search(grid2, start3, goal3, p=p)
@@ -110,8 +109,8 @@ if __name__ == '__main__':
 #                 [path3_[i-1][1]+0.5, path3_[i][1]+0.5], color='green')
     
     # walls
-    plt.scatter([p[0] for p in grid2.walls],
-            [p[1] for p in grid2.walls], color='black')
+#    plt.scatter([p[0] for p in grid2.walls],
+#            [p[1] for p in grid2.walls], color='black')
     # vertex
     plt.scatter([p[0] for p in grid2.vertex.keys()],
                 [p[1] for p in grid2.vertex.keys()], color='blue')
@@ -121,7 +120,7 @@ if __name__ == '__main__':
         plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='green')
         
     # outlines
-    plt.scatter([p[0] for p in grid2.outlines],
-                [p[1] for p in grid2.outlines], color='orange')
+#    plt.scatter([p[0] for p in grid2.outlines],
+#                [p[1] for p in grid2.outlines], color='orange')
     plt.scatter([p[0]+0.1 for p in grid2.expands],
                 [p[1]+0.1 for p in grid2.expands], color='gray')
