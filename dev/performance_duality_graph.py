@@ -22,9 +22,9 @@ if __name__ == '__main__':
 #        grid1.walls.add(pos)
 #        grid2.walls.add(pos)
         
-#    start1, goal1 = (00, 500), (100, 5100)
-#    start2, goal2 = (10, 500), (100, 5200)
-#    start3, goal3 = (20, 500), (100, 5300)
+#    start1, goal1 = (0, 500), (600, 5100)
+#    start2, goal2 = (10, 500), (600, 5200)
+#    start3, goal3 = (20, 500), (600, 5300)
     
     for pos in solid_octagon_line((550, 500), (550, 5500), 20):
         grid1.walls.add(pos)
@@ -35,9 +35,9 @@ if __name__ == '__main__':
     start3, goal3 = (520, 500), (600, 5300)
     
     plt.figure()
-#    plt.scatter([pos[0] for pos in grid2.walls], 
-#                [pos[1] for pos in grid2.walls],
-#                color='black')
+    plt.scatter([pos[0] for pos in grid2.walls], 
+                [pos[1] for pos in grid2.walls],
+                color='black')
     
 #    t0 = time.time()
 #    print('1')
@@ -86,6 +86,13 @@ if __name__ == '__main__':
         
     print("Grid 2 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
     
+    plt.scatter([pos[0] for pos in grid2.search], 
+                [pos[1] for pos in grid2.search],
+                color='orange')
+    
+    plt.scatter([pos[0] for pos in grid2.outlines], 
+                [pos[1] for pos in grid2.outlines],
+                color='yellow')
     
 #    plt.scatter([pos[0] for pos in grid2.search], 
 #                [pos[1] for pos in grid2.search],
@@ -105,29 +112,29 @@ if __name__ == '__main__':
 #        plt.plot([path3[i-1][0], path3[i][0]],
 #                 [path3[i-1][1], path3[i][1]], color='red')
     
-    for i in range(1, len(path1_)):
-        plt.plot([path1_[i-1][0]+0.5, path1_[i][0]+0.5],
-                 [path1_[i-1][1]+0.5, path1_[i][1]+0.5], color='green')
-    for i in range(1, len(path2_)):
-        plt.plot([path2_[i-1][0]+0.5, path2_[i][0]+0.5],
-                 [path2_[i-1][1]+0.5, path2_[i][1]+0.5], color='green')
-    for i in range(1, len(path3_)):
-        plt.plot([path3_[i-1][0]+0.5, path3_[i][0]+0.5],
-                 [path3_[i-1][1]+0.5, path3_[i][1]+0.5], color='green')
-    
     # walls
 #    plt.scatter([pos[0] for pos in grid2.walls],
 #            [pos[1] for pos in grid2.walls], color='black')
     # vertex
-#    plt.scatter([pos[0] for pos in grid2.vertex.keys()],
-#                [pos[1] for pos in grid2.vertex.keys()], color='blue')
-#    # edge
-#    for key in grid2.edge.keys():
-#        pt1, pt2 = key
-#        plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='green')
+    plt.scatter([pos[0] for pos in grid2.vertex.keys()],
+                [pos[1] for pos in grid2.vertex.keys()], color='blue')
+    # edge
+    for key in grid2.edge.keys():
+        pt1, pt2 = key
+        plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='green')
         
     # outlines
 #    plt.scatter([p[0] for p in grid2.outlines],
 #                [p[1] for p in grid2.outlines], color='orange')
 #    plt.scatter([pos[0]+0.1 for pos in grid2.expands],
 #                [pos[1]+0.1 for pos in grid2.expands], color='gray')
+    
+    for i in range(1, len(path1_)):
+        plt.plot([path1_[i-1][0], path1_[i][0]],
+                 [path1_[i-1][1], path1_[i][1]], color='red')
+    for i in range(1, len(path2_)):
+        plt.plot([path2_[i-1][0], path2_[i][0]],
+                 [path2_[i-1][1], path2_[i][1]], color='red')
+    for i in range(1, len(path3_)):
+        plt.plot([path3_[i-1][0], path3_[i][0]],
+                 [path3_[i-1][1], path3_[i][1]], color='red')

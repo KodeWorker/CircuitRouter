@@ -48,13 +48,15 @@ class DualityGraph(EightDirectionGrid):
         
         self.get_sights()
         self.get_block_in_sights()
-        self.get_expands()
-        self.get_shortcuts()
+#        self.get_expands()
+#        self.get_shortcuts()
+        self.search = self.sights | self.outlines | self.shortcuts
     
     def get_shortcuts(self):
         for v in set(self.vertex.keys()) - set(self.shortcut_vertex_exclude.keys()):
             for pair in parallelogram_shortcut_graph(v , self.end) + parallelogram_shortcut_graph(self.start , v):
                 if not pair[0] & self.walls and pair[0]:
+                    self.shortcuts |= pair[0]
                     vertex = pair[1]['vertex']
                     edge = pair[1]['edge']
                     self.merge_vertex(vertex)
@@ -319,6 +321,7 @@ class DualityGraph(EightDirectionGrid):
         self.merge_nodes -= set(self.vertex.keys())
         
         ## new vertex around blocks
+        #! bugs
         add_edge = deepcopy(self.edge)
         rm_pair = set()
         for node in self.merge_nodes:
@@ -346,6 +349,7 @@ class DualityGraph(EightDirectionGrid):
                 if is_in_line(pair[0], node, pair[1]) and \
                 is_within_line(pair[0], node, pair[1]):
                     rm_pair.add(pair)
+                    print(pair)
                     
         for pair in rm_pair:
             self.remove_edge(pair)
@@ -442,6 +446,8 @@ if __name__ == '__main__':
     
     for x in range(13, 16):
         dg.walls.add((x, 4))
+    
+    dg.walls.add((10, 10))
         
     start = (10, 0)
     goal = (13, 15)
