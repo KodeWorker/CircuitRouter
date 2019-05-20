@@ -18,9 +18,9 @@ if __name__ == '__main__':
     grid2 = DynamicBoundGridWithShortcuts(10000, 10000)
     p = 0.5
         
-    for pos in solid_octagon(510, 1000, 20):
-        grid1.walls.add(pos)
-        grid2.walls.add(pos)
+#    for pos in solid_octagon(510, 1000, 20):
+#        grid1.walls.add(pos)
+#        grid2.walls.add(pos)
     
     # case 1    
 #    for y in range(500, 5500):
@@ -28,9 +28,9 @@ if __name__ == '__main__':
 #        grid2.walls.add((550, y))
     
     # case 2
-    for pos in solid_octagon_line((550, 500), (550, 5500), 20):
-        grid1.walls.add(pos)
-        grid2.walls.add(pos)
+#    for pos in solid_octagon_line((550, 500), (550, 5500), 20):
+#        grid1.walls.add(pos)
+#        grid2.walls.add(pos)
         
 #    start1, goal1 = (00, 500), (100, 5100)
 #    start2, goal2 = (10, 500), (100, 5200)

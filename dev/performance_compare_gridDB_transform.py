@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(root)
 
-from graph.gridDB import DynamicBoundGridWithShortcuts
+from graph.gridDB import DynamicBoundGridWithShortcuts, DynamicBoundGrid
 from graph.transform import DenseGraph
 from pathfinder.astar import a_star_search
 from pathfinder.util import reduce_path, reconstruct_path
@@ -19,9 +19,9 @@ if __name__ == '__main__':
     dg = DenseGraph(grid2)
     p = 0.5
         
-    for pos in solid_octagon(510, 1000, 20):
-        grid1.walls.add(pos)
-        grid2.walls.add(pos)
+#    for pos in solid_octagon(510, 1000, 20):
+#        grid1.walls.add(pos)
+#        grid2.walls.add(pos)
     
     # case 1    
 #    for y in range(500, 5500):

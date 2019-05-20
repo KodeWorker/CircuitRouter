@@ -3,6 +3,7 @@
 description:
     
 content:
+    - parallelogram_shortcut_graph
     - parallelogram_shortcuts
     - parallelogram_dynamic_bound
     - parallelogram
@@ -12,9 +13,108 @@ author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2019/05/14
     - 2019/05/16 add parallelogram for dynmaic bounds
+    - 2019/05/20 add parallelogram_shortcut_graph
 """
+from pathfinder.metrics import euclidean_distance
 from shape.Rectangle import rectangle, solid_rectangle
 from shape.Line import bresenhams_line
+
+def parallelogram_shortcut_graph(pt1, pt2):
+    if pt1[1] >= pt2[1]:
+        pt1, pt2 = pt2, pt1
+        
+    dx, dy = abs(pt1[0] - pt2[0]), abs(pt1[1] - pt2[1])
+    s1, s2, s3 = set(), set(), set()
+    g1 = {'vertex': {}, 'edge': {}}
+    g2 = {'vertex': {}, 'edge': {}}
+    g3 = {'vertex': {}, 'edge': {}}
+    if dx == dy:
+        pt3 = (pt1[0], pt2[1])
+        pt4 = (pt2[0], pt1[1])
+        l1 = bresenhams_line(pt1, pt3)
+        l2 = bresenhams_line(pt3, pt2)
+        l3 = bresenhams_line(pt2, pt4)
+        l4 = bresenhams_line(pt4, pt1)
+        
+        s1 |= l1 | l2
+        s2 |= bresenhams_line(pt1, pt2)
+        s3 |= l3 | l4
+        
+        # graph
+        g1['vertex'][pt1] = set([pt3])
+        g1['vertex'][pt3] = set([pt2, pt1])
+        g1['vertex'][pt2] = set([pt3])
+        g1['edge'][(pt1, pt3)] = euclidean_distance(pt1, pt3)
+        g1['edge'][(pt3, pt1)] = euclidean_distance(pt3, pt1)
+        g1['edge'][(pt3, pt2)] = euclidean_distance(pt3, pt2)
+        g1['edge'][(pt2, pt3)] = euclidean_distance(pt2, pt3)
+        
+        g2['vertex'][pt1] = set([pt2])
+        g2['vertex'][pt2] = set([pt1])
+        g2['edge'][(pt1, pt2)] = euclidean_distance(pt1, pt2)
+        g2['edge'][(pt2, pt1)] = euclidean_distance(pt2, pt1)
+        
+        g3['vertex'][pt1] = set([pt4])
+        g3['vertex'][pt4] = set([pt1, pt2])
+        g3['vertex'][pt2] = set([pt4])
+        g3['edge'][(pt1, pt4)] = euclidean_distance(pt1, pt4)
+        g3['edge'][(pt4, pt1)] = euclidean_distance(pt4, pt1)
+        g3['edge'][(pt4, pt2)] = euclidean_distance(pt4, pt2)
+        g3['edge'][(pt2, pt4)] = euclidean_distance(pt2, pt4)
+        
+    elif dx > dy:
+        pt3 = (pt1[0] + dy, pt2[1])
+        pt4 = (pt2[0] - dy, pt1[1])
+        l1 = bresenhams_line(pt1, pt3)
+        l2 = bresenhams_line(pt3, pt2)
+        l3 = bresenhams_line(pt2, pt4)
+        l4 = bresenhams_line(pt4, pt1)
+        s1 |= l1 | l2 
+        s3 |= l3 | l4
+        # graph
+        g1['vertex'][pt1] = set([pt3])
+        g1['vertex'][pt3] = set([pt2, pt1])
+        g1['vertex'][pt2] = set([pt3])
+        g1['edge'][(pt1, pt3)] = euclidean_distance(pt1, pt3)
+        g1['edge'][(pt3, pt1)] = euclidean_distance(pt3, pt1)
+        g1['edge'][(pt3, pt2)] = euclidean_distance(pt3, pt2)
+        g1['edge'][(pt2, pt3)] = euclidean_distance(pt2, pt3)
+                
+        g3['vertex'][pt1] = set([pt4])
+        g3['vertex'][pt4] = set([pt1, pt2])
+        g3['vertex'][pt2] = set([pt4])
+        g3['edge'][(pt1, pt4)] = euclidean_distance(pt1, pt4)
+        g3['edge'][(pt4, pt1)] = euclidean_distance(pt4, pt1)
+        g3['edge'][(pt4, pt2)] = euclidean_distance(pt4, pt2)
+        g3['edge'][(pt2, pt4)] = euclidean_distance(pt2, pt4)
+        
+    elif dx < dy:
+        pt3 = (pt1[0], pt1[1] + dy - dx)
+        pt4 = (pt2[0], pt2[1] - dy + dx)
+        l1 = bresenhams_line(pt1, pt3)
+        l2 = bresenhams_line(pt3, pt2)
+        l3 = bresenhams_line(pt2, pt4)
+        l4 = bresenhams_line(pt4, pt1)
+        s1 |= l1 | l2 
+        s3 |= l3 | l4
+        # graph
+        g1['vertex'][pt1] = set([pt3])
+        g1['vertex'][pt3] = set([pt2, pt1])
+        g1['vertex'][pt2] = set([pt3])
+        g1['edge'][(pt1, pt3)] = euclidean_distance(pt1, pt3)
+        g1['edge'][(pt3, pt1)] = euclidean_distance(pt3, pt1)
+        g1['edge'][(pt3, pt2)] = euclidean_distance(pt3, pt2)
+        g1['edge'][(pt2, pt3)] = euclidean_distance(pt2, pt3)
+                
+        g3['vertex'][pt1] = set([pt4])
+        g3['vertex'][pt4] = set([pt1, pt2])
+        g3['vertex'][pt2] = set([pt4])
+        g3['edge'][(pt1, pt4)] = euclidean_distance(pt1, pt4)
+        g3['edge'][(pt4, pt1)] = euclidean_distance(pt4, pt1)
+        g3['edge'][(pt4, pt2)] = euclidean_distance(pt4, pt2)
+        g3['edge'][(pt2, pt4)] = euclidean_distance(pt2, pt4)
+        
+    return (s1, g1), (s2, g2), (s3, g3)
 
 def parallelogram_shortcuts(pt1, pt2):
     if pt1[1] >= pt2[1]:
