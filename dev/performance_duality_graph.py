@@ -16,7 +16,7 @@ from shape.OctagonLine import solid_octagon_line
 if __name__ == '__main__':
     grid1 = EightDirectionGrid(10000, 10000)
     grid2 = DualityGraph(10000, 10000)
-    p = 0.5
+    p = 0.0
         
 #    for pos in solid_octagon(510, 1000, 20):
 #        grid1.walls.add(pos)
@@ -64,30 +64,38 @@ if __name__ == '__main__':
     t0 = time.time()    
     print('4')
     grid2.set_search(start1, goal1)
+    
+    t1 = time.time()
     came_from, cost_so_far = a_star_search(grid2, start1, goal1, p=p)
+    ts1 = time.time() - t1
     path = reconstruct_path(came_from, start1, goal1)
     path1_ = reduce_path(path)
     for i in range(1, len(path1_)):
         grid2.walls |= solid_octagon_line(path1_[i-1], path1_[i], 5)
     print('5')
     grid2.set_search(start2, goal2)
+    t2 = time.time()
     came_from, cost_so_far = a_star_search(grid2, start2, goal2, p=p)
+    ts2 = time.time() - t2
     path = reconstruct_path(came_from, start2, goal2)
     path2_ = reduce_path(path)
     for i in range(1, len(path2_)):
         grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)    
     print('6')
     grid2.set_search(start3, goal3)
+    t3 = time.time()
     came_from, cost_so_far = a_star_search(grid2, start3, goal3, p=p)
+    ts3 = time.time() - t3
     path = reconstruct_path(came_from, start3, goal3)
     path3_ = reduce_path(path)
     for i in range(1, len(path3_)):
         grid2.walls |= solid_octagon_line(path3_[i-1], path3_[i], 5)
         
     print("Grid 2 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
+#    print("Grid 2 Search Time: {:.4f} sec.".format(ts1+ts2+ts3))
     
-    plt.scatter([pos[0] for pos in grid2.search], 
-                [pos[1] for pos in grid2.search],
+    plt.scatter([pos[0] for pos in grid2.sights], 
+                [pos[1] for pos in grid2.sights],
                 color='orange')
     
     plt.scatter([pos[0] for pos in grid2.outlines], 

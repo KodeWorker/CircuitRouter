@@ -160,4 +160,4 @@ class DynamicBoundGridWithShortcuts(DynamicBoundGrid):
             if len(candidates) >= 4:
                 for shortcut in parallelogram_shortcuts(self.start, outline) + parallelogram_shortcuts(outline, self.end):
                     if not shortcut & self.walls:
-                        self.shortcuts |= shortcut
+                        self.shortcuts |= shortcut - self.walls

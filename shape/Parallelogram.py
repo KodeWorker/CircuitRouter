@@ -14,6 +14,7 @@ latest update:
     - 2019/05/14
     - 2019/05/16 add parallelogram for dynmaic bounds
     - 2019/05/20 add parallelogram_shortcut_graph
+    - 2019/05/21 update pt1[0] >= pt2[0] for shape
 """
 from pathfinder.metrics import euclidean_distance
 from shape.Rectangle import rectangle, solid_rectangle
@@ -63,8 +64,12 @@ def parallelogram_shortcut_graph(pt1, pt2):
         g3['edge'][(pt2, pt4)] = euclidean_distance(pt2, pt4)
         
     elif dx > dy:
-        pt3 = (pt1[0] + dy, pt2[1])
-        pt4 = (pt2[0] - dy, pt1[1])
+        if pt1[0] >= pt2[0]:
+            pt3 = (pt1[0] - dy, pt2[1])
+            pt4 = (pt2[0] + dy, pt1[1])
+        else:
+            pt3 = (pt1[0] + dy, pt2[1])
+            pt4 = (pt2[0] - dy, pt1[1])
         l1 = bresenhams_line(pt1, pt3)
         l2 = bresenhams_line(pt3, pt2)
         l3 = bresenhams_line(pt2, pt4)
@@ -135,8 +140,12 @@ def parallelogram_shortcuts(pt1, pt2):
         s3 |= l3 | l4
         
     elif dx > dy:
-        pt3 = (pt1[0] + dy, pt2[1])
-        pt4 = (pt2[0] - dy, pt1[1])
+        if pt1[0] >= pt2[0]:
+            pt3 = (pt1[0] - dy, pt2[1])
+            pt4 = (pt2[0] + dy, pt1[1])
+        else:
+            pt3 = (pt1[0] + dy, pt2[1])
+            pt4 = (pt2[0] - dy, pt1[1])
         l1 = bresenhams_line(pt1, pt3)
         l2 = bresenhams_line(pt3, pt2)
         l3 = bresenhams_line(pt2, pt4)
@@ -165,8 +174,12 @@ def parallelogram_dynamic_bound(pt1, pt2):
         pixel = rectangle(pt1, pt2)
         pixel |= bresenhams_line(pt1, pt2)
     elif dx > dy:
-        pt3 = (pt1[0] + dy, pt2[1])
-        pt4 = (pt2[0] - dy, pt1[1])
+        if pt1[0] >= pt2[0]:
+            pt3 = (pt1[0] - dy, pt2[1])
+            pt4 = (pt2[0] + dy, pt1[1])
+        else:
+            pt3 = (pt1[0] + dy, pt2[1])
+            pt4 = (pt2[0] - dy, pt1[1])
         l1 = bresenhams_line(pt1, pt3)
         l2 = bresenhams_line(pt3, pt2)
         l3 = bresenhams_line(pt2, pt4)
@@ -192,8 +205,12 @@ def parallelogram(pt1, pt2):
     if dx == dy:
         pixel = rectangle(pt1, pt2)
     elif dx > dy:
-        pt3 = (pt1[0] + dy, pt2[1])
-        pt4 = (pt2[0] - dy, pt1[1])
+        if pt1[0] >= pt2[0]:
+            pt3 = (pt1[0] - dy, pt2[1])
+            pt4 = (pt2[0] + dy, pt1[1])
+        else:
+            pt3 = (pt1[0] + dy, pt2[1])
+            pt4 = (pt2[0] - dy, pt1[1])
         l1 = bresenhams_line(pt1, pt3)
         l2 = bresenhams_line(pt3, pt2)
         l3 = bresenhams_line(pt2, pt4)
@@ -219,8 +236,12 @@ def solid_parallelogram(pt1, pt2):
     if dx == dy:
         pixel = solid_rectangle(pt1, pt2)
     elif dx > dy:
-        pt3 = (pt1[0] + dy, pt2[1])
-        pt4 = (pt2[0] - dy, pt1[1])
+        if pt1[0] >= pt2[0]:
+            pt3 = (pt1[0] - dy, pt2[1])
+            pt4 = (pt2[0] + dy, pt1[1])
+        else:
+            pt3 = (pt1[0] + dy, pt2[1])
+            pt4 = (pt2[0] - dy, pt1[1])
         l2 = bresenhams_line(pt3, pt2, True)
         l4 = bresenhams_line(pt1, pt4, True)
         for s, e in zip(l2, l4):

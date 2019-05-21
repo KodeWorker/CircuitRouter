@@ -59,69 +59,69 @@ if __name__ == '__main__':
     for i in range(1, len(path1)):
         grid1.walls |= solid_octagon_line(path1[i-1], path1[i], 5)
     print('2')
-#    grid1.set_search(start2, goal2)
-#    
-#    t1 = time.time()
-#    came_from, cost_so_far = a_star_search(grid1, start2, goal2, p=p)
-#    ts2 = time.time() - t1
-#    
-#    path = reconstruct_path(came_from, start2, goal2)
-#    path2 = reduce_path(path)
-#    for i in range(1, len(path2)):
-#        grid1.walls |= solid_octagon_line(path2[i-1], path2[i], 5)
-#    print('3')
-#    grid1.set_search(start3, goal3)
-#    
-#    t1 = time.time()
-#    came_from, cost_so_far = a_star_search(grid1, start3, goal3, p=p)
-#    ts3 = time.time() - t1
-#    
-#    path = reconstruct_path(came_from, start3, goal3)
-#    path3 = reduce_path(path)
-#    for i in range(1, len(path3)):
-#        grid1.walls |= solid_octagon_line(path3[i-1], path3[i], 5)
-#        
-#    print("Grid 1 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
-#    print("Grid 1 Search Time: {:.4f} sec.".format(ts1+ts2+ts3))
-#    
-#    t0 = time.time()    
-#    print('4')
-#    dg.set_search(start1, goal1)
-#    
-#    t1 = time.time()
-#    came_from, cost_so_far = a_star_search(dg, start1, goal1, p=p)
-#    ts1 = time.time() - t1
-#    
-#    path = reconstruct_path(came_from, start1, goal1)
-#    path1_ = reduce_path(path)
-#    for i in range(1, len(path1_)):
-#        grid2.walls |= solid_octagon_line(path1_[i-1], path1_[i], 5)
-#    print('5')
-#    dg.set_search(start2, goal2)
-#    
-#    t1 = time.time()
-#    came_from, cost_so_far = a_star_search(dg, start2, goal2, p=p)
-#    ts2 = time.time() - t1
-#    
-#    path = reconstruct_path(came_from, start2, goal2)
-#    path2_ = reduce_path(path)
-#    for i in range(1, len(path2_)):
-#        grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)
-#    
-#    print('6')
-#    dg.set_search(start3, goal3)
-#    
-#    t1 = time.time()
-#    came_from, cost_so_far = a_star_search(dg, start3, goal3, p=p)
-#    ts3 = time.time() - t1
-#    
-#    path = reconstruct_path(came_from, start3, goal3)
-#    path3_ = reduce_path(path)
-#    for i in range(1, len(path3_)):
-#        grid2.walls |= solid_octagon_line(path3_[i-1], path3_[i], 5)
-#        
-#    print("Grid 2 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
-#    print("Grid 2 Search Time: {:.4f} sec.".format(ts1+ts2+ts3))
+    grid1.set_search(start2, goal2)
+    
+    t1 = time.time()
+    came_from, cost_so_far = a_star_search(grid1, start2, goal2, p=p)
+    ts2 = time.time() - t1
+    
+    path = reconstruct_path(came_from, start2, goal2)
+    path2 = reduce_path(path)
+    for i in range(1, len(path2)):
+        grid1.walls |= solid_octagon_line(path2[i-1], path2[i], 5)
+    print('3')
+    grid1.set_search(start3, goal3)
+    
+    t1 = time.time()
+    came_from, cost_so_far = a_star_search(grid1, start3, goal3, p=p)
+    ts3 = time.time() - t1
+    
+    path = reconstruct_path(came_from, start3, goal3)
+    path3 = reduce_path(path)
+    for i in range(1, len(path3)):
+        grid1.walls |= solid_octagon_line(path3[i-1], path3[i], 5)
+        
+    print("Grid 1 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
+    print("Grid 1 Search Time: {:.4f} sec.".format(ts1+ts2+ts3))
+    
+    t0 = time.time()    
+    print('4')
+    dg.set_search(start1, goal1)
+    
+    t1 = time.time()
+    came_from, cost_so_far = a_star_search(dg, start1, goal1, p=p)
+    ts1 = time.time() - t1
+    
+    path = reconstruct_path(came_from, start1, goal1)
+    path1_ = reduce_path(path)
+    for i in range(1, len(path1_)):
+        grid2.walls |= solid_octagon_line(path1_[i-1], path1_[i], 5)
+    print('5')
+    dg.set_search(start2, goal2)
+    
+    t1 = time.time()
+    came_from, cost_so_far = a_star_search(dg, start2, goal2, p=p)
+    ts2 = time.time() - t1
+    
+    path = reconstruct_path(came_from, start2, goal2)
+    path2_ = reduce_path(path)
+    for i in range(1, len(path2_)):
+        grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)
+    
+    print('6')
+    dg.set_search(start3, goal3)
+    
+    t1 = time.time()
+    came_from, cost_so_far = a_star_search(dg, start3, goal3, p=p)
+    ts3 = time.time() - t1
+    
+    path = reconstruct_path(came_from, start3, goal3)
+    path3_ = reduce_path(path)
+    for i in range(1, len(path3_)):
+        grid2.walls |= solid_octagon_line(path3_[i-1], path3_[i], 5)
+        
+    print("Grid 2 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
+    print("Grid 2 Search Time: {:.4f} sec.".format(ts1+ts2+ts3))
     
     plt.scatter([pos[0] for pos in grid1.search], 
                 [pos[1] for pos in grid1.search],
@@ -134,19 +134,19 @@ if __name__ == '__main__':
     for i in range(1, len(path1)):
         plt.plot([path1[i-1][0], path1[i][0]],
                  [path1[i-1][1], path1[i][1]], color='red')
-#    for i in range(1, len(path2)):
-#        plt.plot([path2[i-1][0], path2[i][0]],
-#                 [path2[i-1][1], path2[i][1]], color='red')
-#    for i in range(1, len(path3)):
-#        plt.plot([path3[i-1][0], path3[i][0]],
-#                 [path3[i-1][1], path3[i][1]], color='red')
-#    
-#    for i in range(1, len(path1_)):
-#        plt.plot([path1_[i-1][0]+0.5, path1_[i][0]+0.5],
-#                 [path1_[i-1][1]+0.5, path1_[i][1]+0.5], color='green')
-#    for i in range(1, len(path2_)):
-#        plt.plot([path2_[i-1][0]+0.5, path2_[i][0]+0.5],
-#                 [path2_[i-1][1]+0.5, path2_[i][1]+0.5], color='green')
-#    for i in range(1, len(path3_)):
-#        plt.plot([path3_[i-1][0]+0.5, path3_[i][0]+0.5],
-#                 [path3_[i-1][1]+0.5, path3_[i][1]+0.5], color='green')
+    for i in range(1, len(path2)):
+        plt.plot([path2[i-1][0], path2[i][0]],
+                 [path2[i-1][1], path2[i][1]], color='red')
+    for i in range(1, len(path3)):
+        plt.plot([path3[i-1][0], path3[i][0]],
+                 [path3[i-1][1], path3[i][1]], color='red')
+    
+    for i in range(1, len(path1_)):
+        plt.plot([path1_[i-1][0]+0.5, path1_[i][0]+0.5],
+                 [path1_[i-1][1]+0.5, path1_[i][1]+0.5], color='green')
+    for i in range(1, len(path2_)):
+        plt.plot([path2_[i-1][0]+0.5, path2_[i][0]+0.5],
+                 [path2_[i-1][1]+0.5, path2_[i][1]+0.5], color='green')
+    for i in range(1, len(path3_)):
+        plt.plot([path3_[i-1][0]+0.5, path3_[i][0]+0.5],
+                 [path3_[i-1][1]+0.5, path3_[i][1]+0.5], color='green')

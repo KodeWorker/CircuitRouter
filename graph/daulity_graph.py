@@ -10,6 +10,7 @@ author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2019/05/17
     - 2019/05/20 generate outline graph in DualityGraph
+    - 2019/05/21 generate shortcuts in DualityGraph
 """
 import os
 import sys
@@ -48,10 +49,10 @@ class DualityGraph(EightDirectionGrid):
         
         self.get_sights()
         self.get_block_in_sights()
-#        self.get_expands()
-#        self.get_shortcuts()
+        self.get_expands()
+        self.get_shortcuts()
         self.search = self.sights | self.outlines | self.shortcuts
-    
+        
     def get_shortcuts(self):
         for v in set(self.vertex.keys()) - set(self.shortcut_vertex_exclude.keys()):
             for pair in parallelogram_shortcut_graph(v , self.end) + parallelogram_shortcut_graph(self.start , v):
@@ -317,24 +318,41 @@ class DualityGraph(EightDirectionGrid):
         self.merge_nodes = set()
         
         for pos in self.block_in_sights:
-            self.merge_nodes |= (set(self.get_candidates(pos)) - self.walls) & self.sights
+            self.merge_nodes |= (set(self.adjacent_blocks(pos, self.sights)) - self.block_in_sights)
         self.merge_nodes -= set(self.vertex.keys())
         
         ## new vertex around blocks
         #! bugs
         add_edge = deepcopy(self.edge)
         rm_pair = set()
-        for node in self.merge_nodes:
-            for pair in self.edge.keys():
+        
+        for pair in self.edge.keys():
+            
+            nodes_in_edge = set()
+            
+            for node in self.merge_nodes:
+                
                 if is_in_line(pair[0], node, pair[1]) and \
                 is_within_line(pair[0], node, pair[1]):
                     self.vertex[node] = set(pair)
                     self.vertex[pair[0]].add(node) 
-                    self.vertex[pair[1]].add(node) 
-                    add_edge[(node, pair[0])] = euclidean_distance(node, pair[0])
-                    add_edge[(pair[0], node)] = euclidean_distance(node, pair[0])
+                    self.vertex[pair[1]].add(node)
+                    d = euclidean_distance(node, pair[0])
+                    add_edge[(node, pair[0])] = d
+                    add_edge[(pair[0], node)] = d
                     rm_pair.add(pair)
+                    nodes_in_edge.add(node)
+            
+                for n1 in nodes_in_edge:
+                    for n2 in [pos for pos in nodes_in_edge if pos != n1]:
+                        self.vertex[n1].add(n2)
+                        self.vertex[n2].add(n1)
+                        d = euclidean_distance(n1, n2)
+                        add_edge[(n1, n2)] = d
+                        add_edge[(n2, n1)] = d
+                
         self.edge = add_edge
+        
         for pair in rm_pair:
             self.remove_edge(pair)
         ## delete blocked vertex
@@ -349,7 +367,6 @@ class DualityGraph(EightDirectionGrid):
                 if is_in_line(pair[0], node, pair[1]) and \
                 is_within_line(pair[0], node, pair[1]):
                     rm_pair.add(pair)
-                    print(pair)
                     
         for pair in rm_pair:
             self.remove_edge(pair)
@@ -440,14 +457,19 @@ if __name__ == '__main__':
 #    for pos in solid_octagon_line((2, 10), (2, 2), 1):
 #        dg.walls.add(pos)
     
-    for x in range(9, 12):
-        for y in range(4, 7):
-            dg.walls.add((x, y))  
+#    for x in range(9, 12):
+#        for y in range(4, 7):
+#            dg.walls.add((x, y))  
     
     for x in range(13, 16):
         dg.walls.add((x, 4))
     
     dg.walls.add((10, 10))
+    dg.walls.add((10, 6))
+    
+    for x in range(5, 11):
+        dg.walls.add((x, 3))
+    dg.walls.add((13, 12))
         
     start = (10, 0)
     goal = (13, 15)

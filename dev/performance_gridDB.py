@@ -79,22 +79,22 @@ if __name__ == '__main__':
     path1_ = reduce_path(path)
     for i in range(1, len(path1_)):
         grid2.walls |= solid_octagon_line(path1_[i-1], path1_[i], 5)
-    print('5')
-    grid2.set_search(start2, goal2)
-    came_from, cost_so_far = a_star_search(grid2, start2, goal2, p=p)
-    path = reconstruct_path(came_from, start2, goal2)
-    path2_ = reduce_path(path)
-    for i in range(1, len(path2_)):
-        grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)
-    
-    print('6')
-    grid2.set_search(start3, goal3)
-    came_from, cost_so_far = a_star_search(grid2, start3, goal3, p=p)
-    path = reconstruct_path(came_from, start3, goal3)
-    path3_ = reduce_path(path)
-    for i in range(1, len(path3_)):
-        grid2.walls |= solid_octagon_line(path3_[i-1], path3_[i], 5)
-        
+#    print('5')
+#    grid2.set_search(start2, goal2)
+#    came_from, cost_so_far = a_star_search(grid2, start2, goal2, p=p)
+#    path = reconstruct_path(came_from, start2, goal2)
+#    path2_ = reduce_path(path)
+#    for i in range(1, len(path2_)):
+#        grid2.walls |= solid_octagon_line(path2_[i-1], path2_[i], 5)
+#    
+#    print('6')
+#    grid2.set_search(start3, goal3)
+#    came_from, cost_so_far = a_star_search(grid2, start3, goal3, p=p)
+#    path = reconstruct_path(came_from, start3, goal3)
+#    path3_ = reduce_path(path)
+#    for i in range(1, len(path3_)):
+#        grid2.walls |= solid_octagon_line(path3_[i-1], path3_[i], 5)
+#        
     print("Grid 2 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
     
     
@@ -119,9 +119,9 @@ if __name__ == '__main__':
     for i in range(1, len(path1_)):
         plt.plot([path1_[i-1][0]+0.5, path1_[i][0]+0.5],
                  [path1_[i-1][1]+0.5, path1_[i][1]+0.5], color='green')
-    for i in range(1, len(path2_)):
-        plt.plot([path2_[i-1][0]+0.5, path2_[i][0]+0.5],
-                 [path2_[i-1][1]+0.5, path2_[i][1]+0.5], color='green')
-    for i in range(1, len(path3_)):
-        plt.plot([path3_[i-1][0]+0.5, path3_[i][0]+0.5],
-                 [path3_[i-1][1]+0.5, path3_[i][1]+0.5], color='green')
+#    for i in range(1, len(path2_)):
+#        plt.plot([path2_[i-1][0]+0.5, path2_[i][0]+0.5],
+#                 [path2_[i-1][1]+0.5, path2_[i][1]+0.5], color='green')
+#    for i in range(1, len(path3_)):
+#        plt.plot([path3_[i-1][0]+0.5, path3_[i][0]+0.5],
+#                 [path3_[i-1][1]+0.5, path3_[i][1]+0.5], color='green')

@@ -28,9 +28,9 @@ if __name__ == '__main__':
 #        grid2.walls.add((550, y))
     
     # case 2
-    for pos in solid_octagon_line((550, 500), (550, 5500), 20):
-        grid1.walls.add(pos)
-        grid2.walls.add(pos)
+#    for pos in solid_octagon_line((550, 500), (550, 5500), 20):
+#        grid1.walls.add(pos)
+#        grid2.walls.add(pos)
         
 #    start1, goal1 = (00, 500), (100, 5100)
 #    start2, goal2 = (10, 500), (100, 5200)
@@ -101,10 +101,10 @@ if __name__ == '__main__':
     plt.scatter([pos[0] for pos in grid2.search], 
                 [pos[1] for pos in grid2.search],
                 color='orange')
-    
-    plt.scatter([pos[0] for pos in grid2.outlines], 
-                [pos[1] for pos in grid2.outlines],
-                color='yellow')
+#    
+#    plt.scatter([pos[0] for pos in grid2.outlines], 
+#                [pos[1] for pos in grid2.outlines],
+#                color='yellow')
     
     for i in range(1, len(path1)):
         plt.plot([path1[i-1][0], path1[i][0]],
