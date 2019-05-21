@@ -20,6 +20,7 @@ sys.path.append(root)
 from graph.grid import GridWithWeights
 from graph.grid8d import EightDirectionGrid
 from graph.gridDB import DynamicBoundGrid, DynamicBoundGridWithShortcuts
+from graph.duality_graph import DualityGraph
 
 class TestGrid(unittest.TestCase):
     
@@ -54,6 +55,15 @@ class TestGridDB(unittest.TestCase):
     def test_case2(self):
         self.assertSetEqual(set(self.g2.neighbors((0,0))), set([(1, 0), (0, 1), (1, 1)]))
 
-       
+class TestDualityGraph(unittest.TestCase):
+    def __init__(self, methodName='runTest'):
+        super(TestDualityGraph, self).__init__(methodName)
+        self.g1 = DualityGraph(4, 4)
+        self.g1.set_search((0, 0), (3, 3))
+    
+    def test_case1(self):
+        self.assertSetEqual(set(self.g1.neighbors((0,0))), set([(3, 0), (0, 3), (3, 3)]))
+    
+    
 if __name__ == '__main__':
     unittest.main(verbosity=1)  

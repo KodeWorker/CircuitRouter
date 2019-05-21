@@ -170,7 +170,7 @@ def parallelogram_dynamic_bound(pt1, pt2):
         
     dx, dy = abs(pt1[0] - pt2[0]), abs(pt1[1] - pt2[1])
     pixel = set()
-    if dx == dy:
+    if dx == dy:        
         pixel = rectangle(pt1, pt2)
         pixel |= bresenhams_line(pt1, pt2)
     elif dx > dy:

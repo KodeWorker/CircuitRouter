@@ -7,7 +7,7 @@ root = os.path.join(os.path.dirname(__file__), '..')
 sys.path.append(root)
 
 from graph.grid8d import EightDirectionGrid
-from graph.daulity_graph import DualityGraph
+from graph.duality_graph import DualityGraph
 from pathfinder.astar import a_star_search
 from pathfinder.util import reduce_path, reconstruct_path
 from shape.Octagon import solid_octagon
