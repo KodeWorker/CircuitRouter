@@ -11,6 +11,7 @@ latest update:
     - 2019/05/17
     - 2019/05/20 generate outline graph in DualityGraph
     - 2019/05/21 generate shortcuts in DualityGraph, fix bugs in get_sights
+    - 2019/05/22 fix bugs in get_sights
 """
 import os
 import sys
@@ -322,7 +323,6 @@ class DualityGraph(EightDirectionGrid):
         self.merge_nodes -= set(self.vertex.keys())
         
         ## new vertex around blocks
-        #! bugs
         add_edge = deepcopy(self.edge)
         rm_pair = set()
         
@@ -409,14 +409,26 @@ class DualityGraph(EightDirectionGrid):
             v4 = (pt2[0], pt2[1] - dy)            
         elif dx > dy:
             v1 = pt1
-            v2 = (pt2[0] - dx, pt2[1])
             v3 = pt2
-            v4 = (pt1[0] + dx, pt1[1])
+            if pt1[0] >= pt2[0]:
+                v2 = (pt1[0] - dy, pt2[1])
+                v4 = (pt2[0] + dy, pt1[1])
+            else:
+                v2 = (pt1[0] + dy, pt2[1])
+                v4 = (pt2[0] - dy, pt1[1])
+#            v1 = pt1
+#            v2 = (pt2[0] - dx, pt2[1])
+#            v3 = pt2
+#            v4 = (pt1[0] + dx, pt1[1])
         elif dx < dy:
             v1 = pt1
-            v2 = (pt1[0], pt2[1] - dx)
             v3 = pt2
-            v4 = (pt2[0], pt1[1] + dx)
+            v2 = (pt1[0], pt1[1] + dy - dx)
+            v4 = (pt2[0], pt2[1] - dy + dx)
+#            v1 = pt1
+#            v2 = (pt1[0], pt2[1] - dx)
+#            v3 = pt2
+#            v4 = (pt2[0], pt1[1] + dx)
         if dx == dy:
             self.vertex[v1] = set([v2, v4, v3])
             self.vertex[v2] = set([v1, v3])
@@ -480,7 +492,7 @@ if __name__ == '__main__':
 #    start = (10, 0)
 #    goal = (13, 15)
     
-    start = (0, 0)
+    start = (1, 2)
     goal = (3, 3)
     dg.set_search(start, goal)
     
@@ -496,9 +508,8 @@ if __name__ == '__main__':
         pt1, pt2 = key
         plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='green')
     
-#    plt.scatter([p[0] for p in dg.outlines],
-#                [p[1] for p in dg.outlines], color='orange')
-    
+#    plt.scatter([p[0] for p in dg.sights],
+#                [p[1] for p in dg.sights], color='orange')    
     
 #    for num in dg.iso_graph.keys():
 #        vertex = dg.iso_graph[num]['vertex']

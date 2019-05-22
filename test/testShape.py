@@ -8,10 +8,12 @@ content:
     - TestOctagon
     - TestRectangle
     - TestOctagonLine
+    - TestParallelogram
 author: Shin-Fu (Kelvin) Wu
 latest update: 
     - 2019/05/13
     - 2019/05/14 add TestParallelogram
+    - 2019/05/22 add test case for parallelogram_shortcuts and parallelogram_shortcut_graph
 """
 
 import os
@@ -26,7 +28,10 @@ from shape.Octagon import octagon, solid_octagon
 from shape.Rectangle import (rectangle, solid_rectangle, diagonal_rectangle,
                              solid_diagonal_rectangle)
 from shape.OctagonLine import octagon_line, solid_octagon_line
-from shape.Parallelogram import parallelogram, solid_parallelogram, parallelogram_dynamic_bound
+from shape.Parallelogram import (parallelogram, solid_parallelogram,
+                                 parallelogram_dynamic_bound,
+                                 parallelogram_shortcuts,
+                                 parallelogram_shortcut_graph)
 
 class TestLine(unittest.TestCase):
     
@@ -191,6 +196,50 @@ class TestParallelogram(unittest.TestCase):
                       (4, 5), (2, -1), (-1, 2), (0, 5), (3, 5), (5, 3), (-1, 3),
                       (3, -1), (0, -1), (5, 2)])
         self.assertEqual(pdb, answer)
+    
+    def test_case4(self):
+        pt1 = (-1, -1)
+        pt2 = (5, 5)
+        s1, s2, s3 = parallelogram_shortcuts(pt1, pt2)
+        ans1 = set([(-1, 1), (-1, 0), (-1, 3), (-1, 2), (5, 5), (1, 5), (0, 5),
+                    (-1, 5), (-1, -1), (4, 5), (-1, 4), (2, 5), (3, 5)])
+        ans2 = set([(0, 0), (3, 3), (-1, -1), (5, 5), (4, 4), (2, 2), (1, 1)])
+        ans3 = set([(5, -1), (5, 4), (5, 5), (5, 2), (2, -1), (3, -1), (5, 0),
+                    (-1, -1), (5, 1), (0, -1), (1, -1), (4, -1), (5, 3)])
+        self.assertEqual(s1, ans1)
+        self.assertEqual(s2, ans2)
+        self.assertEqual(s3, ans3)
+    
+    def test_case5(self):
+        pt1 = (-1, -1)
+        pt2 = (5, 5)
+        p1, p2, p3 = parallelogram_shortcut_graph(pt1, pt2)
+        s1, g1 = p1
+        s2, g2 = p2
+        s3, g3 = p3
+        ans1 = set([(-1, 1), (-1, 0), (-1, 3), (-1, 2), (5, 5), (1, 5), (0, 5),
+                    (-1, 5), (-1, -1), (4, 5), (-1, 4), (2, 5), (3, 5)])
+        ans2 = set([(0, 0), (3, 3), (-1, -1), (5, 5), (4, 4), (2, 2), (1, 1)])
+        ans3 = set([(5, -1), (5, 4), (5, 5), (5, 2), (2, -1), (3, -1), (5, 0),
+                    (-1, -1), (5, 1), (0, -1), (1, -1), (4, -1), (5, 3)])
+        self.assertEqual(s1, ans1)
+        self.assertEqual(s2, ans2)
+        self.assertEqual(s3, ans3)
+        
+        ans4 = {'edge': {((5, 5), (-1, 5)): 6.0, ((-1, -1), (-1, 5)): 6.0, 
+                         ((-1, 5), (-1, -1)): 6.0, ((-1, 5), (5, 5)): 6.0}, 
+                'vertex': {(5, 5): set([(-1, 5)]), (-1, 5): set([(5, 5), (-1, -1)]),
+                           (-1, -1): set([(-1, 5)])}}
+        ans5 = {'edge': {((5, 5), (-1, -1)): 8.48528137423857, 
+                         ((-1, -1), (5, 5)): 8.48528137423857},
+                'vertex': {(5, 5): set([(-1, -1)]), (-1, -1): set([(5, 5)])}}
+        ans6 = {'edge': {((5, -1), (5, 5)): 6.0, ((-1, -1), (5, -1)): 6.0,
+                         ((5, 5), (5, -1)): 6.0, ((5, -1), (-1, -1)): 6.0},
+                'vertex': {(5, -1): set([(5, 5), (-1, -1)]), 
+                           (5, 5): set([(5, -1)]), (-1, -1): set([(5, -1)])}}
+        self.assertEqual(g1, ans4)
+        self.assertEqual(g2, ans5)
+        self.assertEqual(g3, ans6)
         
 if __name__ == '__main__':
     unittest.main(verbosity=1)  
