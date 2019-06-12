@@ -44,10 +44,11 @@ The idea of this graph structure is inspired by the visibility graph and landmar
 - 2019/05/17 initiate DualityGraph
 - 2019/05/21 Done developing DualityGraph
 - 2019/05/22 add test cases for DualityGraph, parallelogram_shortcuts and parallelogram_shortcut_graph
+- 2019/06/12 start developing hierarchical graph and bug fixed
 
 ## Todo List
-- write a research letter
 - hierarchical graph structure
+- write a research letter
 
 ## Reference
 1. https://www.redblobgames.com/pathfinding/a-star/implementation.html

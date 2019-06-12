@@ -12,6 +12,7 @@ latest update:
     - 2019/05/20 generate outline graph in DualityGraph
     - 2019/05/21 generate shortcuts in DualityGraph, fix bugs in get_sights
     - 2019/05/22 fix bugs in get_sights
+    - 2019/06/12 fix bugs in get_directed_outline
 """
 import os
 import sys
@@ -71,19 +72,10 @@ class DualityGraph(EightDirectionGrid):
     
     def group_expand(self):
         expand_visited = {}
-#        outline_visited = {}
         for num in self.iso_group.keys():
             group = self.iso_group[num]
             expand = self.bfs_blocks(list(group)[0], expand_visited)
             self.expands |= expand
-            
-#            outline = self.get_outline(expand)
-#            self.outlines |= outline
-#            
-#            vertex, edge = self.get_directed_outline(outline, outline_visited)
-#            
-#            self.merge_vertex(vertex)
-#            self.merge_edge(edge)
         
         self.outlines = self.get_outline(self.expands)
         vertex, edge = self.get_directed_outline(self.outlines)
@@ -110,7 +102,9 @@ class DualityGraph(EightDirectionGrid):
         go_to = {}
                 
         fork_queue = list(self.merge_nodes & outline)
-        
+        if not fork_queue:
+            fork_queue = [self.start, self.end]
+            
         while fork_queue:
             
             fork = fork_queue.pop(0)
@@ -248,9 +242,7 @@ class DualityGraph(EightDirectionGrid):
         candidates = [(x, y+1), (x-1, y  ), (x+1, y), (x, y-1)]
         return candidates
     
-    def bfs_blocks(self, block, visited):
-#        visited = {}        
-        
+    def bfs_blocks(self, block, visited={}):
         queue = []
         queue.append(block)
         visited[block] = True
@@ -311,7 +303,7 @@ class DualityGraph(EightDirectionGrid):
         candidates = set(candidates) & blocks
         return candidates
     
-    def get_block_in_sights(self):        
+    def get_block_in_sights(self):
         self.block_in_sights = self.sights & self.walls
         self.sights -= self.walls
         
@@ -416,19 +408,12 @@ class DualityGraph(EightDirectionGrid):
             else:
                 v2 = (pt1[0] + dy, pt2[1])
                 v4 = (pt2[0] - dy, pt1[1])
-#            v1 = pt1
-#            v2 = (pt2[0] - dx, pt2[1])
-#            v3 = pt2
-#            v4 = (pt1[0] + dx, pt1[1])
         elif dx < dy:
             v1 = pt1
             v3 = pt2
             v2 = (pt1[0], pt1[1] + dy - dx)
             v4 = (pt2[0], pt2[1] - dy + dx)
-#            v1 = pt1
-#            v2 = (pt1[0], pt2[1] - dx)
-#            v3 = pt2
-#            v4 = (pt2[0], pt1[1] + dx)
+            
         if dx == dy:
             self.vertex[v1] = set([v2, v4, v3])
             self.vertex[v2] = set([v1, v3])
@@ -482,18 +467,15 @@ if __name__ == '__main__':
 #    for x in range(13, 16):
 #        dg.walls.add((x, 4))
 #    
-#    dg.walls.add((10, 10))
-#    dg.walls.add((10, 6))
-#    
-#    for x in range(5, 11):
-#        dg.walls.add((x, 3))
-#    dg.walls.add((13, 12))
-        
-#    start = (10, 0)
-#    goal = (13, 15)
     
-    start = (1, 2)
-    goal = (3, 3)
+    for y in range(1, 5):
+        dg.walls.add((0, y))
+        
+    start = (0, 0)
+    goal = (0, 5)
+    
+#    start = (1, 2)
+#    goal = (3, 3)
     dg.set_search(start, goal)
     
     plt.figure()
@@ -508,22 +490,13 @@ if __name__ == '__main__':
         pt1, pt2 = key
         plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='green')
     
-#    plt.scatter([p[0] for p in dg.sights],
-#                [p[1] for p in dg.sights], color='orange')    
+    plt.scatter([p[0] for p in dg.search],
+                [p[1] for p in dg.search], color='orange')    
+
     
-#    for num in dg.iso_graph.keys():
-#        vertex = dg.iso_graph[num]['vertex']
-#        edge = dg.iso_graph[num]['edge']
-#        
-#        plt.scatter([p[0] for p in vertex.keys()],
-#                [p[1] for p in vertex.keys()], color='yellow')
-#        for key in edge.keys():
-#            pt1, pt2 = key
-#            plt.plot([pt1[0], pt2[0]], [pt1[1], pt2[1]], color='yellow')
-    
-    came_from, cost_so_far = a_star_search(dg, start, goal, p=0.5)
-    path = reconstruct_path(came_from, start, goal)
-    path = reduce_path(path)
-    for i in range(1, len(path)):
-        plt.plot([path[i-1][0], path[i][0]],
-                 [path[i-1][1], path[i][1]], color='red')
+#    came_from, cost_so_far = a_star_search(dg, start, goal, p=0.5)
+#    path = reconstruct_path(came_from, start, goal)
+#    path = reduce_path(path)
+#    for i in range(1, len(path)):
+#        plt.plot([path[i-1][0], path[i][0]],
+#                 [path[i-1][1], path[i][1]], color='red')

@@ -92,7 +92,7 @@ if __name__ == '__main__':
         grid2.walls |= solid_octagon_line(path3_[i-1], path3_[i], 5)
         
     print("Grid 2 Time Elapsed: {:.4f} sec.".format(time.time() - t0))
-#    print("Grid 2 Search Time: {:.4f} sec.".format(ts1+ts2+ts3))
+    print("Grid 2 Search Time: {:.4f} sec.".format(ts1+ts2+ts3))
     
     plt.scatter([pos[0] for pos in grid2.sights], 
                 [pos[1] for pos in grid2.sights],
